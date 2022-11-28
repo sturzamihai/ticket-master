@@ -12,13 +12,24 @@ private:
 	Zona* zone;
 
 public:
+	Locatie();
 	Locatie(const char* nume);
+	Locatie(const char* nume, int nrZone, Zona* zone);
 	Locatie(const Locatie& l);
 	~Locatie();
 
-	void setNume(const char* nume);
 	char* getNume();
+	void setNume(const char* nume);
 
-	friend std::istream& operator>>(std::istream& in, Locatie l);
+	int getNrZone();
+
+	Zona getZona(int index);
+	Zona operator[](int index);
+
+	void setZone(Zona* zone, int nrZone);
+	void adaugareZona(const Zona& z);
+
+	friend std::ostream& operator<<(std::ostream&, Locatie);
+	friend std::istream& operator>>(std::istream&, Locatie&);
 };
 
