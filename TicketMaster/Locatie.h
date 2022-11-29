@@ -16,6 +16,7 @@ public:
 	Locatie(const char* nume);
 	Locatie(const char* nume, int nrZone, Zona* zone);
 	Locatie(const Locatie& l);
+	Locatie& operator=(const Locatie& l);
 	~Locatie();
 
 	char* getNume();

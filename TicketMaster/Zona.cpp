@@ -13,17 +13,7 @@ Zona::Zona()
 Zona::Zona(std::string nume, int nrRanduri, int nrLocuriPerRand) : Zona::Zona()
 {
 	this->nume = nume;
-	this->nrRanduri = nrRanduri;
-	this->nrLocuriPerRand = nrLocuriPerRand;
-
-	if (nrRanduri > 0 && nrLocuriPerRand > 0)
-	{
-		this->hartaLocuri = new Loc * [nrRanduri];
-		for (int i = 0; i < nrRanduri; i++)
-		{
-			this->hartaLocuri[i] = new Loc[nrLocuriPerRand]{ false, false };
-		}
-	}
+	this->setHartaLocuri(Zona::generareHartaLocuri(nrRanduri, nrLocuriPerRand), nrRanduri, nrLocuriPerRand);
 }
 
 Zona::Zona(const Zona& z) : Zona::Zona(z.nume, z.nrRanduri, z.nrLocuriPerRand)
@@ -43,6 +33,7 @@ Zona& Zona::operator=(const Zona& z)
 		nume = z.nume;
 		setHartaLocuri(z.hartaLocuri, z.nrRanduri, z.nrLocuriPerRand);
 	}
+
 	return *this;
 }
 
@@ -56,6 +47,16 @@ void Zona::setNume(std::string nume)
 std::string Zona::getNume()
 {
 	return nume;
+}
+
+int Zona::getNrRanduri()
+{
+	return nrRanduri;
+}
+
+int Zona::getNrLocuriPerRand()
+{
+	return nrLocuriPerRand;
 }
 
 // Seteaza harta locurilor. Necesita o matrice de tip Loc
@@ -99,6 +100,22 @@ void Zona::deleteHartaLocuri()
 		delete[] hartaLocuri;
 		hartaLocuri = nullptr;
 	}
+}
+
+static Loc** Zona::generareHartaLocuri(int nrRanduri, int nrLocuriPerRand)
+{
+	if (nrRanduri > 0 && nrLocuriPerRand > 0)
+	{
+		Loc** hartaLocuri = new Loc * [nrRanduri];
+		for (int i = 0; i < nrRanduri; i++)
+		{
+			hartaLocuri[i] = new Loc[nrLocuriPerRand]{ false, false };
+		}
+
+		return hartaLocuri;
+	}
+
+	return nullptr;
 }
 
 // Deblocheaza un singur loc (arata existenta acestui loc in realitate)
@@ -172,11 +189,41 @@ std::istream& operator>>(std::istream& in, Zona& z)
 	in.ignore();
 	std::getline(in, z.nume);
 
+	int nrRanduri;
+	int nrLocuriPerRand;
 	std::cout << "Numarul de randuri: ";
-	in >> z.nrRanduri;
+	in >> nrRanduri;
 
 	std::cout << "Numarul de locuri per rand: ";
-	in >> z.nrLocuriPerRand;
+	in >> nrLocuriPerRand;
+
+	z.setHartaLocuri(Zona::generareHartaLocuri(nrRanduri, nrLocuriPerRand), nrRanduri, nrLocuriPerRand);
+	std::cout << "Harta actuala:" << std::endl << z;
+
+	std::cout << "Exista locuri in diagrama care nu exista in sala reala? (y/n): ";
+	std::string command;
+	in >> command;
+	while (command != "y" && command != "n")
+	{
+		std::cout << "Comanda nu este valida. Te rog reincearca." << std::endl;
+		std::cout << "Exista locuri in diagrama care nu exista in sala reala? (y/n): ";
+		in >> command;
+	}
+
+	if (command == "y")
+	{
+		int nrRand;
+		int nrLoc;
+		std::cout << "Introdu randul (numerele din stanga diagramei) si scaunul (numerele din partea de sus a diagramei). Cand ai terminat de introdus toate locurile, scrie pentru rand si loc valorile 0." << std::endl;
+		std::cout << "Rand si loc de blocat: ";
+		in >> nrRand >> nrLoc;
+		while (nrRand != 0 && nrLoc != 0)
+		{
+			z.blocareLoc(nrRand - 1, nrLoc - 1);
+			std::cout << "Rand si loc de blocat: ";
+			in >> nrRand >> nrLoc;
+		}
+	}
 
 	return in;
 }

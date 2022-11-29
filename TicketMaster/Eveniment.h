@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include "Locatie.h"
+#include "Bilet.h"
 
 struct Data {
 	int zi;
@@ -14,7 +16,11 @@ class Eveniment
 {
 private:
 	std::string nume;
-	Data data;
+	Locatie locatie;
+	Bilet* bilete;
+
+	Data dataInceput;
+	Data dataSfarsit;
 
 public:
 	Eveniment(std::string nume, Data data);

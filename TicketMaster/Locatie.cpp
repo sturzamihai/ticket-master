@@ -43,6 +43,17 @@ Locatie::Locatie(const Locatie& l) : Locatie::Locatie(l.nume, l.nrZone, l.zone)
 	// Silence is golden...
 }
 
+Locatie& Locatie::operator=(const Locatie& l)
+{
+	if (this != &l)
+	{
+		this->setNume(l.nume);
+		this->setZone(l.zone, l.nrZone);
+	}
+
+	return *this;
+}
+
 Locatie::~Locatie()
 {
 	if (nume != nullptr)
