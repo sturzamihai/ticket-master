@@ -19,14 +19,8 @@ Locatie::Locatie(const char* nume) : Locatie::Locatie()
 	}
 }
 
-Locatie::Locatie(const char* nume, int nrZone, Zona* zone) : Locatie::Locatie()
-{
-	if (nume != nullptr)
-	{
-		this->nume = new char[strlen(nume) + 1];
-		strcpy_s(this->nume, strlen(nume) + 1, nume);
-	}
-	
+Locatie::Locatie(const char* nume, int nrZone, Zona* zone) : Locatie::Locatie(nume)
+{	
 	if (zone != nullptr && nrZone > 0)
 	{
 		this->nrZone = nrZone;
@@ -82,6 +76,18 @@ char* Locatie::getNume()
 	return nullptr;
 }
 
+// Returneaza numele locatiei ca si string
+std::string Locatie::getNumeString()
+{
+	if (nume != nullptr)
+	{
+		std::string numeString = nume;
+		return numeString;
+	}
+
+	return "";
+}
+
 // Seteaza numele locatiei
 void Locatie::setNume(const char* nume)
 {
@@ -100,6 +106,21 @@ void Locatie::setNume(const char* nume)
 int Locatie::getNrZone()
 {
 	return nrZone;
+}
+
+// Returneaza capacitatea maxima a locatiei
+int Locatie::getCapacitateMaxima()
+{
+	int capacitate = 0;
+	if (zone != nullptr)
+	{
+		for (int i = 0; i < nrZone; i++)
+		{
+			capacitate += zone[i].getCapacitateMaxima();
+		}
+	}
+
+	return capacitate;
 }
 
 // Returneaza zona de pe pozitia index
@@ -150,6 +171,16 @@ void Locatie::adaugareZona(const Zona& z)
 		zoneNoi[0] = z;
 		setZone(zoneNoi, 1);
 	}
+}
+
+bool Locatie::vanzareLoc(int zona, int nrRand, int nrLoc)
+{
+	if (zona < nrZone)
+	{
+		return zone[zona].vanzareLoc(nrRand, nrLoc);
+	}
+
+	return false;
 }
 
 std::ostream& operator<<(std::ostream& out, Locatie l)

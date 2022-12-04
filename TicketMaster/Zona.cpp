@@ -49,17 +49,45 @@ std::string Zona::getNume()
 	return nume;
 }
 
+// Returneaza numarul de randuri ale zonei
 int Zona::getNrRanduri()
 {
 	return nrRanduri;
 }
 
+// Returneaza numarul de locuri ale zonei
 int Zona::getNrLocuriPerRand()
 {
 	return nrLocuriPerRand;
 }
 
-// Seteaza harta locurilor. Necesita o matrice de tip Loc
+// Returneaza capacitatea zonei
+int Zona::getCapacitateMaxima()
+{
+	int capacitate = 0;
+
+	if (hartaLocuri != nullptr)
+	{
+		for (int i = 0; i < nrRanduri; i++)
+		{
+			for (int j = 0; j < nrLocuriPerRand; j++)
+			{
+				if (!hartaLocuri[i][j].blocat)
+				{
+					capacitate++;
+				}
+			}
+		}
+	}
+	else
+	{
+		capacitate = nrRanduri * nrLocuriPerRand;
+	}
+
+	return capacitate;
+}
+
+// Seteaza harta locurilor. Necesita o matrice de tip Loc (ce se poate genera prin functia statica)
 void Zona::setHartaLocuri(Loc** hartaLocuri, int nrRanduri, int nrLocuriPerRand)
 {
 	if (hartaLocuri != nullptr && nrRanduri > 0 && nrLocuriPerRand > 0)
@@ -102,7 +130,8 @@ void Zona::deleteHartaLocuri()
 	}
 }
 
-static Loc** Zona::generareHartaLocuri(int nrRanduri, int nrLocuriPerRand)
+// Functie statica pentru generarea unei harti de locuri cu nrRanduri randuri si nrLocuriPerRand coloane
+Loc** Zona::generareHartaLocuri(int nrRanduri, int nrLocuriPerRand)
 {
 	if (nrRanduri > 0 && nrLocuriPerRand > 0)
 	{
@@ -134,6 +163,17 @@ void Zona::blocareLoc(int nrRand, int nrLoc)
 	{
 		hartaLocuri[nrRand][nrLoc].blocat = true;
 	}
+}
+
+bool Zona::vanzareLoc(int nrRand, int nrLoc)
+{
+	if (hartaLocuri != nullptr && nrRand < nrRanduri && nrLoc < nrLocuriPerRand && hartaLocuri[nrRand][nrLoc].blocat == false)
+	{
+		hartaLocuri[nrRand][nrLoc].vandut = true;
+		return true;
+	}
+
+	return false;
 }
 
 std::ostream& operator<<(std::ostream& out, Zona z)

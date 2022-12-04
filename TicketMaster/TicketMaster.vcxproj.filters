@@ -16,12 +16,18 @@
     <Filter Include="Source Files\Locatie">
       <UniqueIdentifier>{08c6ed01-29d2-404e-946e-8341e8816738}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Eveniment">
+      <UniqueIdentifier>{549f1985-1543-45de-9a93-4068081431fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Locatie">
+      <UniqueIdentifier>{b4f8c465-01ba-4cc3-8080-ba4d6459ff7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Eveniment">
+      <UniqueIdentifier>{55977685-1c96-4206-8ced-5be0d8e55e0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Eveniment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Locatie.cpp">
@@ -30,22 +36,40 @@
     <ClCompile Include="Zona.cpp">
       <Filter>Source Files\Locatie</Filter>
     </ClCompile>
-    <ClCompile Include="Bilet.cpp">
+    <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bilet.cpp">
+      <Filter>Source Files\Eveniment</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files\Eveniment</Filter>
+    </ClCompile>
+    <ClCompile Include="Eveniment.cpp">
+      <Filter>Source Files\Eveniment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Locatie.h">
+    <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Zona.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Eveniment.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Eveniment.fwd.h">
+      <Filter>Header Files\Eveniment</Filter>
     </ClInclude>
     <ClInclude Include="Bilet.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Eveniment</Filter>
+    </ClInclude>
+    <ClInclude Include="Eveniment.h">
+      <Filter>Header Files\Eveniment</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Header Files\Eveniment</Filter>
+    </ClInclude>
+    <ClInclude Include="Locatie.h">
+      <Filter>Header Files\Locatie</Filter>
+    </ClInclude>
+    <ClInclude Include="Zona.h">
+      <Filter>Header Files\Locatie</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
