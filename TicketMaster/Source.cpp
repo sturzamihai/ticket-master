@@ -7,5 +7,5 @@
 
 int main()
 {
-	std::cout << GUID::testareColiziune(50000);
+	std::cout << GUID::testareColiziune(50000); // 0!
 }
