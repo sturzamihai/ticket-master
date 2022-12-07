@@ -10,12 +10,13 @@ private:
 	int nrRanduri;
 	int nrLocuriPerRand;
 	Loc** hartaLocuri;
+	int pretPerLoc;
 
 	void deleteHartaLocuri();
 
 public:
 	Zona();
-	Zona(std::string nume, int nrRanduri, int nrLocuriPerRand);
+	Zona(std::string nume, int nrRanduri, int nrLocuriPerRand, int pretPerLoc);
 	Zona(const Zona& z);
 	Zona& operator=(const Zona& z);
 	~Zona();

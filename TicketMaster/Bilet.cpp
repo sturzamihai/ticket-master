@@ -1,14 +1,14 @@
 #include "Bilet.h"
 #include <iostream>
 
-Bilet::Bilet() : id("N/A")
+Bilet::Bilet()
 {
 	pret = 0;
 	client = nullptr;
 	eveniment = nullptr;
 }
 
-Bilet::Bilet(std::string id, Eveniment& eveniment, Client& client) : id(id)
+Bilet::Bilet(Eveniment& eveniment, Client& client)
 {
 	this->eveniment = &eveniment;
 	this->client = &client;

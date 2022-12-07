@@ -8,15 +8,17 @@ Zona::Zona()
 	nrRanduri = 0;
 	nrLocuriPerRand = 0;
 	hartaLocuri = 0;
+	pretPerLoc = 0;
 }
 
-Zona::Zona(std::string nume, int nrRanduri, int nrLocuriPerRand) : Zona::Zona()
+Zona::Zona(std::string nume, int nrRanduri, int nrLocuriPerRand, int pretPerLoc = 0) : Zona::Zona()
 {
 	this->nume = nume;
+	this->pretPerLoc = pretPerLoc;
 	this->setHartaLocuri(Zona::generareHartaLocuri(nrRanduri, nrLocuriPerRand), nrRanduri, nrLocuriPerRand);
 }
 
-Zona::Zona(const Zona& z) : Zona::Zona(z.nume, z.nrRanduri, z.nrLocuriPerRand)
+Zona::Zona(const Zona& z) : Zona::Zona(z.nume, z.nrRanduri, z.nrLocuriPerRand, z.pretPerLoc)
 {
 	setHartaLocuri(z.hartaLocuri, z.nrRanduri, z.nrLocuriPerRand);
 }
@@ -31,6 +33,7 @@ Zona& Zona::operator=(const Zona& z)
 	if (this != &z)
 	{
 		nume = z.nume;
+		pretPerLoc = z.pretPerLoc;
 		setHartaLocuri(z.hartaLocuri, z.nrRanduri, z.nrLocuriPerRand);
 	}
 
@@ -165,6 +168,7 @@ void Zona::blocareLoc(int nrRand, int nrLoc)
 	}
 }
 
+// Marcheaza un loc ca si vandut
 bool Zona::vanzareLoc(int nrRand, int nrLoc)
 {
 	if (hartaLocuri != nullptr && nrRand < nrRanduri && nrLoc < nrLocuriPerRand && hartaLocuri[nrRand][nrLoc].blocat == false)

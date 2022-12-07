@@ -47,6 +47,15 @@ Eveniment& Eveniment::operator=(const Eveniment& e)
 	return *this;
 }
 
+Eveniment::~Eveniment()
+{
+	if (bilete != nullptr)
+	{
+		delete[] bilete;
+		bilete = nullptr;
+	}
+}
+
 void Eveniment::setBilete(Bilet* bilete, int nrBileteVandute)
 {
 	if (bilete != nullptr && nrBileteVandute > 0)
@@ -106,7 +115,7 @@ bool Eveniment::vanzareBilet(Client& client, int zona, int nrRand, int nrLoc)
 
 	if (succesVanzare)
 	{
-		Bilet biletNou("TODO: GENERATOR ID", *this, client);
+		Bilet biletNou(* this, client);
 
 		if (bilete != nullptr)
 		{
