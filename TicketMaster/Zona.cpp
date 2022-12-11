@@ -7,7 +7,7 @@ Zona::Zona()
 	nume = "N/A";
 	nrRanduri = 0;
 	nrLocuriPerRand = 0;
-	hartaLocuri = 0;
+	hartaLocuri = nullptr;
 	pretPerLoc = 0;
 }
 

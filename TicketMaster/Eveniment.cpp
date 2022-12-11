@@ -1,18 +1,13 @@
 #include "Eveniment.h"
 #include "Bilet.h"
+#include "Utils.h"
 
 Eveniment::Eveniment()
 {
 	nume = "N/A";
 
-	locatie = *(new Locatie());
-
 	nrBileteVandute = 0;
 	bilete = nullptr;
-
-	Data dataInitiala{ 1,1,2000,0,0 };
-	dataInceput = dataInitiala;
-	dataSfarsit = dataInitiala;
 }
 
 Eveniment::Eveniment(std::string nume, Locatie locatie, Data dataInceput, Data dataSfarsit) : Eveniment::Eveniment()
@@ -134,4 +129,14 @@ bool Eveniment::vanzareBilet(Client& client, int zona, int nrRand, int nrLoc)
 	}
 
 	return false;
+}
+
+std::ostream& operator<<(std::ostream& out, Eveniment e)
+{
+	out << "Nume eveniment: " << e.nume << std::endl;
+	out << e.locatie;
+	out << "Data inceput: " << e.dataInceput;
+	out << "Data sfarsit: " << e.dataSfarsit;
+
+	return out;
 }

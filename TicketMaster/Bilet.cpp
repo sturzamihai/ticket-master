@@ -8,7 +8,7 @@ Bilet::Bilet()
 	eveniment = nullptr;
 }
 
-Bilet::Bilet(Eveniment& eveniment, Client& client)
+Bilet::Bilet(Eveniment& eveniment, Client& client) : Bilet()
 {
 	this->eveniment = &eveniment;
 	this->client = &client;

@@ -1,11 +1,13 @@
 #include <iostream>
-#include "Locatie.h"
-#include "Bilet.h";
-#include "Utils.h";
 #include "Eveniment.h";
-#include "Client.h";
+#include "Locatie.h";
+#include "Utils.h";
 
 int main()
 {
-	std::cout << GUID::testareColiziune(50000); // 0!
+	Locatie l;
+	std::cin >> l;
+
+	Eveniment a("Test?", l, Data(31,10,2020,18,0), Data(1,11,2020,2,0));
+	std::cout << a;
 }
