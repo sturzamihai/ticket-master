@@ -5,11 +5,17 @@
 class Client
 {
 private:
-	static int nrClient;
-	const int id;
+	const std::string email;
+	std::string parola;
+
 	std::string nume;
+
+	int nrBileteCumparate;
 	Bilet* bileteCumparate;
 
 public:
-	Client();
+	Client(std::string email, std::string parola);
+	Client(std::string email, std::string parola, std::string nume);
+	// Client(const Client& c); TODO
+	// Client& operator=(const Client& c); TODO
 };

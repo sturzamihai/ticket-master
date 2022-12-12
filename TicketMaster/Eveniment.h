@@ -42,5 +42,6 @@ public:
 	bool vanzareBilet(Client& client, int zona, int nrRand, int nrLoc);
 
 	friend std::ostream& operator<<(std::ostream&, Eveniment);
+	friend std::istream& operator>>(std::istream&, Eveniment&);
 };
 

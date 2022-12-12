@@ -140,3 +140,17 @@ std::ostream& operator<<(std::ostream& out, Eveniment e)
 
 	return out;
 }
+
+std::istream& operator>>(std::istream& in, Eveniment& e)
+{
+	std::cout << "Nume eveniment: ";
+	in >> std::ws;
+	std::getline(in, e.nume);
+	in >> e.locatie;
+	std::cout << "Data inceput:" << std::endl;
+	in >> e.dataInceput;
+	std::cout << "Data sfarsit: " << std::endl;
+	in >> e.dataSfarsit;
+
+	return in;
+}

@@ -230,7 +230,7 @@ std::ostream& operator<<(std::ostream& out, Zona z)
 std::istream& operator>>(std::istream& in, Zona& z)
 {
 	std::cout << "Nume zonei: ";
-	in.ignore();
+	in >> std::ws;
 	std::getline(in, z.nume);
 
 	int nrRanduri;

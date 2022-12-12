@@ -18,6 +18,7 @@ public:
 	Data(unsigned int zi, unsigned int unsigned luna, unsigned int an, unsigned ora, unsigned minut);
 
 	friend std::ostream& operator<<(std::ostream&, Data);
+	friend std::istream& operator>>(std::istream&, Data&);
 };
 
 class DataInvalidaException : public std::exception {

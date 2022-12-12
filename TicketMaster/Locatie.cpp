@@ -1,5 +1,4 @@
 #include "Locatie.h"
-#include <iostream>
 
 Locatie::Locatie()
 {
@@ -126,13 +125,18 @@ int Locatie::getCapacitateMaxima()
 // Returneaza zona de pe pozitia index
 Zona Locatie::getZona(int index)
 {
-	return zone[index];
+	if (index >= 0 && index < nrZone)
+	{
+		return zone[index];
+	}
+
+	throw IndexInvalidException();
 }
 
 // Returneaza zona de pe pozitia index
 Zona Locatie::operator[](int index)
 {
-	return zone[index];
+	return getZona(index);
 }
 
 // Seteaza zonele locatiei
@@ -205,6 +209,7 @@ std::ostream& operator<<(std::ostream& out, Locatie l)
 std::istream& operator>>(std::istream& in, Locatie& l)
 {
 	std::cout << "Nume locatie: ";
+	in >> std::ws;
 	std::string buffer;
 	std::getline(in,buffer);
 	l.setNume(buffer.c_str());
