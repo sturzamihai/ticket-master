@@ -14,3 +14,14 @@ class IndexInvalidException : public std::exception
 public:
 	IndexInvalidException();
 };
+
+class VectorNullException : public std::exception
+{
+public:
+	VectorNullException();
+};
+
+namespace Utils
+{
+	std::string citireConsolaParola(std::istream& in);
+}

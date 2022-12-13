@@ -36,6 +36,8 @@ public:
 
 	int getCapacitateMaxima();
 	bool vanzareLoc(int zona, int nrRand, int nrLoc);
+	void setPretLocuri(int zona, float pret);
+	void setPretLocuri(float pret);
 
 	/* Operatori */
 

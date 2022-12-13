@@ -1,25 +1,27 @@
 #pragma once
 #include <string>
 
-class GUID
+namespace Utils
 {
-private:
-	static std::string caractereAdmise;
-	static int lungimeParte;
-	static int nrParti;
-	static std::string separator;
+	class GUID
+	{
+	private:
+		static std::string caractereAdmise;
+		static int lungimeParte;
+		static int nrParti;
+		static std::string separator;
 
-	std::string cod;
+		std::string cod;
 
-	char getCaracterRandom();
-	std::string genereazaParte();
+		char getCaracterRandom();
+		std::string genereazaParte();
 
-public:
-	GUID();
+	public:
+		GUID();
 
-	bool operator==(const GUID& c);
-	explicit operator std::string();
+		bool operator==(const GUID& c);
+		explicit operator std::string();
 
-	static int testareColiziune(int nrGuidGenerate);
-};
-
+		static int testareColiziune(int nrGuidGenerate);
+	};
+}

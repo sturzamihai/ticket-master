@@ -179,12 +179,38 @@ void Locatie::adaugareZona(const Zona& z)
 
 bool Locatie::vanzareLoc(int zona, int nrRand, int nrLoc)
 {
-	if (zona < nrZone)
+	if (zone == nullptr) throw VectorNullException();
+
+	if (zona >= 0 && zona < nrZone)
 	{
 		return zone[zona].vanzareLoc(nrRand, nrLoc);
 	}
 
-	return false;
+	throw IndexInvalidException();
+}
+
+void Locatie::setPretLocuri(int zona, float pret)
+{
+	if (zone == nullptr) throw VectorNullException();
+
+	if (zona >= 0 && zona < nrZone)
+	{
+		zone[zona].setPret(pret);
+	}
+	else
+	{
+		throw IndexInvalidException();
+	}
+}
+
+void Locatie::setPretLocuri(float pret)
+{
+	if (zone == nullptr || nrZone <= 0) throw VectorNullException();
+
+	for (int i = 0; i < nrZone; i++)
+	{
+		setPretLocuri(i, pret);
+	}
 }
 
 std::ostream& operator<<(std::ostream& out, Locatie l)

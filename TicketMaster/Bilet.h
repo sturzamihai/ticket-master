@@ -6,7 +6,7 @@
 class Bilet
 {
 private:
-	const GUID id;
+	const Utils::GUID id;
 
 	Eveniment* eveniment;
 	unsigned int pret;
@@ -18,6 +18,7 @@ private:
 	Bilet(Eveniment& eveniment, Client& client);
 
 public:
+	Bilet(const Bilet& b);
 	Bilet& operator=(const Bilet& b);
 
 	friend class Eveniment;

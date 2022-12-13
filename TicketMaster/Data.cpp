@@ -10,7 +10,7 @@ Data::Data()
 	minut = 0;
 }
 
-Data::Data(unsigned int zi, unsigned int unsigned luna, unsigned int an) : Data()
+Data::Data(unsigned int zi, unsigned int luna, unsigned int an) : Data()
 {
 	if ((zi > 0 && zi <= 31) && (luna > 0 && luna <= 12) && (an >= 1900))
 	{
@@ -24,7 +24,7 @@ Data::Data(unsigned int zi, unsigned int unsigned luna, unsigned int an) : Data(
 	}
 }
 
-Data::Data(unsigned int zi, unsigned int unsigned luna, unsigned int an, unsigned ora, unsigned minut = 0) : Data(zi, luna, an)
+Data::Data(unsigned int zi, unsigned int luna, unsigned int an, unsigned ora, unsigned minut = 0) : Data(zi, luna, an)
 {
 	if ((ora >= 0 && ora <= 24) && (minut >= 0 && minut <= 60))
 	{
@@ -35,6 +35,33 @@ Data::Data(unsigned int zi, unsigned int unsigned luna, unsigned int an, unsigne
 	{
 		throw DataInvalidaException();
 	}
+}
+
+bool Data::operator==(const Data& d)
+{
+	return this->an == d.an && this->luna == d.luna && this->zi == d.zi && this->ora == d.ora && this->minut == d.minut;
+}
+
+bool Data::operator<(const Data& d)
+{
+	if (this->an != d.an) return this->an < d.an;
+	if (this->luna != d.luna) return this->luna < d.luna;
+	if (this->zi != d.zi) return this->zi < d.zi;
+	if (this->ora != d.ora) return this->ora < d.ora;
+	if (this->minut != d.minut) return this->minut < d.minut;
+
+	return false;
+}
+
+bool Data::operator>(const Data& d)
+{
+	if (this->an != d.an) return this->an > d.an;
+	if (this->luna != d.luna) return this->luna > d.luna;
+	if (this->zi != d.zi) return this->zi > d.zi;
+	if (this->ora != d.ora) return this->ora > d.ora;
+	if (this->minut != d.minut) return this->minut > d.minut;
+
+	return false;
 }
 
 std::ostream& operator<<(std::ostream& out, Data d)

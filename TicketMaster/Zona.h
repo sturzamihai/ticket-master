@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Utils.h"
+#include "Locatie.fwd.h"
 
 class Zona
 {
@@ -10,13 +11,13 @@ private:
 	int nrRanduri;
 	int nrLocuriPerRand;
 	Loc** hartaLocuri;
-	int pretPerLoc;
+	float pretPerLoc;
 
 	void deleteHartaLocuri();
 
 public:
 	Zona();
-	Zona(std::string nume, int nrRanduri, int nrLocuriPerRand, int pretPerLoc);
+	Zona(std::string nume, int nrRanduri, int nrLocuriPerRand, float pretPerLoc);
 	Zona(const Zona& z);
 	Zona& operator=(const Zona& z);
 	~Zona();
@@ -25,6 +26,9 @@ public:
 
 	void setNume(std::string nume);
 	std::string getNume();
+
+	void setPret(float pretPerLoc);
+	float getPret();
 
 	int getNrRanduri();
 	int getNrLocuriPerRand();

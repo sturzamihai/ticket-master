@@ -14,6 +14,13 @@ Bilet::Bilet(Eveniment& eveniment, Client& client) : Bilet()
 	this->client = &client;
 }
 
+Bilet::Bilet(const Bilet& b) : id(b.id)
+{
+	this->pret = b.pret;
+	this->eveniment = b.eveniment;
+	this->client = b.client;
+}
+
 Bilet& Bilet::operator=(const Bilet& b)
 {
 	if (this != &b)

@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{55c692a6-fc5a-473c-aef3-3de20b8e3b82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Client">
+      <UniqueIdentifier>{899ce270-f701-45b1-93f0-58633cf173a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Client">
+      <UniqueIdentifier>{234fbced-a8de-45d6-bd0c-63a1b50ac1a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -45,9 +51,6 @@
     <ClCompile Include="Bilet.cpp">
       <Filter>Source Files\Eveniment</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>Source Files\Eveniment</Filter>
-    </ClCompile>
     <ClCompile Include="Eveniment.cpp">
       <Filter>Source Files\Eveniment</Filter>
     </ClCompile>
@@ -60,6 +63,12 @@
     <ClCompile Include="Data.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="TicketMaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Eveniment.fwd.h">
@@ -69,9 +78,6 @@
       <Filter>Header Files\Eveniment</Filter>
     </ClInclude>
     <ClInclude Include="Eveniment.h">
-      <Filter>Header Files\Eveniment</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
       <Filter>Header Files\Eveniment</Filter>
     </ClInclude>
     <ClInclude Include="Locatie.h">
@@ -88,6 +94,15 @@
     </ClInclude>
     <ClInclude Include="Data.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Locatie.fwd.h">
+      <Filter>Header Files\Locatie</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Header Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="TicketMaster.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

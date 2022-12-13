@@ -11,7 +11,7 @@ Zona::Zona()
 	pretPerLoc = 0;
 }
 
-Zona::Zona(std::string nume, int nrRanduri, int nrLocuriPerRand, int pretPerLoc = 0) : Zona::Zona()
+Zona::Zona(std::string nume, int nrRanduri, int nrLocuriPerRand, float pretPerLoc = 0) : Zona::Zona()
 {
 	this->nume = nume;
 	this->pretPerLoc = pretPerLoc;
@@ -50,6 +50,16 @@ void Zona::setNume(std::string nume)
 std::string Zona::getNume()
 {
 	return nume;
+}
+
+void Zona::setPret(float pretPerLoc)
+{
+	this->pretPerLoc = pretPerLoc >= 0 ? pretPerLoc : 0;
+}
+
+float Zona::getPret()
+{
+	return pretPerLoc;
 }
 
 // Returneaza numarul de randuri ale zonei
