@@ -1,12 +1,16 @@
 #include "Eveniment.fwd.h"
 #include "Client.h"
 
-Client::Client(std::string email, std::string parola)
+Client::Client()
+{
+	nume = "Anonim";
+	esteAdmin = false;
+}
+
+Client::Client(std::string email, std::string parola) : Client::Client()
 {
 	this->email = email;
 	this->parola = parola; // TODO: ceva hashing function simplu - for the sake of things
-	nume = "N/A";
-	esteAdmin = false;
 
 	//nrBileteCumparate = 0;
 	//bileteCumparate = nullptr;
@@ -15,6 +19,26 @@ Client::Client(std::string email, std::string parola)
 Client::Client(std::string email, std::string parola, std::string nume) : Client(email, parola)
 {
 	this->nume = nume;
+}
+
+std::string Client::getEmail()
+{
+	return email;
+}
+
+bool Client::verificareParola(std::string parolaDeComparat)
+{
+	return parola == parolaDeComparat;
+}
+
+bool Client::getRolAdmin()
+{
+	return esteAdmin;
+}
+
+void Client::setRolAdmin(bool admin)
+{
+	esteAdmin = admin;
 }
 
 std::ostream& operator<<(std::ostream& out, Client c)
@@ -28,14 +52,12 @@ std::istream& operator>>(std::istream& in, Client& c)
 	std::cout << "--- CREARE CONT ---" << std::endl;
 
 	std::cout << "Nume client: ";
-	std::string numeClient;
 	in >> std::ws;
-	std::getline(in, numeClient);
+	std::getline(in, c.nume);
 
 	std::cout << "Adresa de email: ";
-	std::string adresaEmail;
 	in >> std::ws;
-	std::getline(in, adresaEmail);
+	std::getline(in, c.email);
 
 	std::cout << "Parola: ";
 	std::string parola = Utils::citireConsolaParola(in);
@@ -50,6 +72,8 @@ std::istream& operator>>(std::istream& in, Client& c)
 		std::cout << "Repetare parola: ";
 		repetaParola = Utils::citireConsolaParola(in);
 	}
+
+	c.parola = parola;
 
 	return in;
 }

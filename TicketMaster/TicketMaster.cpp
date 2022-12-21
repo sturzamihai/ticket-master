@@ -6,6 +6,11 @@ TicketMaster::TicketMaster()
 	nrEvenimente = 0;
 	evenimente = nullptr;
 	contextClient = nullptr;
+
+	Client contAdmin;
+	std::cin >> contAdmin;
+	contAdmin.setRolAdmin(true);
+	clienti.insert({ contAdmin.getEmail(),contAdmin });
 }
 
 void TicketMaster::setEvenimente(Eveniment* evenimente, int nrEvenimente)
@@ -44,6 +49,7 @@ void TicketMaster::comenziNeautentificat()
 	std::cout << "3. Inregistrare" << std::endl;
 
 	std::string comanda;
+	std::cin >> std::ws;
 	std::getline(std::cin, comanda);
 
 	if(comanda != "1" && comanda != "2" && comanda != "3")
@@ -52,16 +58,49 @@ void TicketMaster::comenziNeautentificat()
 		start();
 	}
 
-	if (comanda == "1" || comanda == "2")
+	if (comanda == "1")
 	{
 		std::cout << "Functie in curs de implementare..." << std::endl;
 		start();
 	}
+
+	if (comanda == "2")
+	{
+		std::string emailClient;
+		std::string parolaClient;
+
+		std::cout << "Email: ";
+		std::cin >> std::ws;
+		std::cin >> emailClient;
+
+		std::cout << "Parola: ";
+		std::cin >> std::ws;
+		std::cin >> parolaClient;
+
+		try {
+			Client viitorContext = clienti.at(emailClient);
+
+			if (viitorContext.verificareParola(parolaClient))
+			{
+				setContextClient(viitorContext);
+				start();
+			}
+			else {
+				throw std::exception("Invalid email/pass");
+			}
+		}
+		catch (std::exception e)
+		{
+			std::cout << "Parola sau email-ul introdus nu este corect. Te rugam reincearca.";
+			start();
+		}
+	}
 	
 	if (comanda == "3")
 	{
-		Client context("N/A", "N/A");
+		Client context;
 		std::cin >> context;
+		clienti.insert({ context.getEmail(), context });
 		setContextClient(context);
 		start();
 	}
@@ -74,6 +113,7 @@ void TicketMaster::comenziAutentificat()
 	std::cout << "3. Log out" << std::endl;
 
 	std::string comanda;
+	std::cin >> std::ws;
 	std::getline(std::cin, comanda);
 
 	if (comanda != "1" && comanda != "2" && comanda != "3")
@@ -95,6 +135,43 @@ void TicketMaster::comenziAutentificat()
 	}
 }
 
+void TicketMaster::comenziAdmin()
+{
+	std::cout << "1. Lista evenimente" << std::endl;
+	std::cout << "2. Adaugare eveniment" << std::endl;
+	std::cout << "3. Contul meu" << std::endl;
+	std::cout << "4. Log out" << std::endl;
+
+	std::string comanda;
+	std::cin >> std::ws;
+	std::getline(std::cin, comanda);
+
+	if (comanda != "1" && comanda != "2" && comanda != "3" && comanda != "4")
+	{
+		std::cout << "Comanda este invalida. Te rugam sa reincerci." << std::endl;
+		start();
+	}
+
+	if (comanda == "1" || comanda == "3")
+	{
+		std::cout << "Functie in curs de implementare..." << std::endl;
+		start();
+	}
+
+	if (comanda == "2")
+	{
+		Eveniment e;
+		std::cin >> e;
+		adaugareEveniment(e);
+	}
+
+	if (comanda == "4")
+	{
+		deleteContextClient();
+		start();
+	}
+}
+
 void TicketMaster::start()
 {
 	std::cout << "-> Meniu <-" << std::endl;
@@ -105,7 +182,8 @@ void TicketMaster::start()
 	}
 	else
 	{
-		comenziAutentificat();
+		if (contextClient->getRolAdmin()) comenziAdmin();
+		else comenziAutentificat();
 	}
 }
 
