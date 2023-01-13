@@ -3,6 +3,6 @@
 
 int main()
 {
-	TicketMaster platforma;
-	platforma.start();
+	TicketMaster* platforma = TicketMaster::getInstanta();
+	platforma->start();
 }

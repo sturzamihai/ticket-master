@@ -1,34 +1,40 @@
 #include "TicketMaster.h"
+#include "Eveniment.h"
+
+TicketMaster* TicketMaster::tm_ = nullptr;
+
+TicketMaster* TicketMaster::getInstanta()
+{
+	if (tm_ == nullptr)
+	{
+		tm_ = new TicketMaster();
+	}
+
+	return tm_;
+}
 
 TicketMaster::TicketMaster()
 {
-	std::cout << "----- TICKET MASTER (v0.1.0) -----" << std::endl;
-	nrEvenimente = 0;
-	evenimente = nullptr;
+	std::cout << "----- TICKET MASTER (v0.1.2) -----" << std::endl;
 	contextClient = nullptr;
 
 	Client contAdmin;
 	std::cin >> contAdmin;
 	contAdmin.setRolAdmin(true);
 	clienti.insert({ contAdmin.getEmail(),contAdmin });
+
+	Locatie a("TEST!!!");
+	locatii.push_back(a);
 }
 
-void TicketMaster::setEvenimente(Eveniment* evenimente, int nrEvenimente)
+void TicketMaster::setEvenimente(std::vector<Eveniment> evenimente)
 {
-	if (evenimente != nullptr && nrEvenimente > 0)
-	{
-		if (this->evenimente != nullptr)
-		{
-			delete[] this->evenimente;
-		}
-		
-		this->evenimente = new Eveniment[nrEvenimente];
-		this->nrEvenimente = nrEvenimente;
-		for (int i = 0; i < nrEvenimente; i++)
-		{
-			this->evenimente[i] = evenimente[i];
-		}
-	}
+	this->evenimente = evenimente;
+}
+
+void TicketMaster::setLocatii(std::vector<Locatie> locatii)
+{
+	this->locatii = locatii;
 }
 
 void TicketMaster::setContextClient(const Client& c)
@@ -189,22 +195,15 @@ void TicketMaster::start()
 
 void TicketMaster::adaugareEveniment(Eveniment e)
 {
-	if (evenimente != nullptr && nrEvenimente > 0)
-	{
-		Eveniment* copieEvenimente = new Eveniment[nrEvenimente + 1];
-		for (int i = 0; i < nrEvenimente; i++)
-		{
-			copieEvenimente[i] = evenimente[i];
-		}
-		copieEvenimente[nrEvenimente] = e;
+	evenimente.push_back(e);
+}
 
-		setEvenimente(copieEvenimente, nrEvenimente + 1);
-	}
-	else
-	{
-		Eveniment* copieEvenimente = new Eveniment[nrEvenimente];
-		copieEvenimente[0] = e;
+void TicketMaster::adaugareLocatie(Locatie e)
+{
+	locatii.push_back(e);
+}
 
-		setEvenimente(copieEvenimente, 1);
-	}
+std::vector<Locatie> TicketMaster::getLocatii()
+{
+	return locatii;
 }

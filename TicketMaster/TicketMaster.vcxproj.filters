@@ -104,5 +104,8 @@
     <ClInclude Include="TicketMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Serializabil.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

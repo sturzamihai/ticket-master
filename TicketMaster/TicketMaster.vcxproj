@@ -145,6 +145,7 @@
     <ClInclude Include="Eveniment.fwd.h" />
     <ClInclude Include="Eveniment.h" />
     <ClInclude Include="GUID.h" />
+    <ClInclude Include="Serializabil.h" />
     <ClInclude Include="Locatie.fwd.h" />
     <ClInclude Include="Locatie.h" />
     <ClInclude Include="TicketMaster.h" />

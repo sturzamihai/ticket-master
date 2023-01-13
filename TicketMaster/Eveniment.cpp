@@ -162,7 +162,42 @@ std::istream& operator>>(std::istream& in, Eveniment& e)
 	std::cout << "Nume eveniment: ";
 	in >> std::ws;
 	std::getline(in, e.nume);
-	in >> e.locatie;
+
+	TicketMaster* platforma = TicketMaster::getInstanta();
+	std::vector<Locatie> locatii = platforma->getLocatii();
+
+	if (!locatii.empty())
+	{
+		std::cout << "-- Locatii disponibile --" << std::endl;
+		for (int i = 0; i < locatii.size(); i++)
+		{
+			std::cout << i + 1 << ". " << locatii[i].getNumeString() << std::endl;
+		}
+
+		int selectie;
+		std::cout << "Introdu 0 pentru a crea o locatie noua sau orice numar din fata numelui locatiei pentru folosirea acesteia:";
+		in >> selectie;
+
+		while (selectie < 0 || (selectie-1) >= locatii.size())
+		{
+			std::cout << "Comanda introdusa nu este corecta. Reintrodu comanda: ";
+			in >> selectie;
+		}
+
+		if (selectie == 0)
+		{
+			in >> e.locatie;
+		}
+		else {
+			e.locatie = locatii[selectie - 1];
+		}
+	}
+	else
+	{
+		in >> e.locatie;
+	}
+
+
 	std::cout << " - Data inceput -" << std::endl;
 	in >> e.dataInceput;
 	std::cout << "- Data sfarsit -" << std::endl;

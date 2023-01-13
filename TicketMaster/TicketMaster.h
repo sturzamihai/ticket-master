@@ -1,16 +1,24 @@
 #pragma once
-#include "Eveniment.h"
+#include "Eveniment.fwd.h"
 #include "Client.h"
+#include "Locatie.h"
 #include <map>
+#include <vector>
 
 class TicketMaster
 {
 private:
-	int nrEvenimente;
-	Eveniment* evenimente;
-	void setEvenimente(Eveniment* evenimente, int nrEvenimente);
+	static TicketMaster* tm_;
+	TicketMaster();
+
+	std::vector<Eveniment> evenimente;
+	void setEvenimente(std::vector<Eveniment> evenimente);
+
+	std::vector<Locatie> locatii;
+	void setLocatii(std::vector<Locatie> locatii);
 
 	std::map<std::string, Client> clienti;
+
 	Client* contextClient;
 	void setContextClient(const Client& c);
 	void deleteContextClient();
@@ -23,9 +31,16 @@ private:
 	void prelucrareComenziAutentificat(std::string comanda);
 	void prelucrareComenziAdmin(std::string comanda);
 public:
-	TicketMaster();
+	TicketMaster(const TicketMaster& tm) = delete;
+	void operator=(const TicketMaster&) = delete;
+
+	static TicketMaster* getInstanta();
 
 	void start();
+
 	void adaugareEveniment(Eveniment e);
+	void adaugareLocatie(Locatie e);
+
+	std::vector<Locatie> getLocatii();
 };
 

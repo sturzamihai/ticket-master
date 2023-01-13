@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Utils.h"
+#include "Serializabil.h"
 #include "Locatie.fwd.h"
 
 class Zona
@@ -48,5 +49,6 @@ public:
 
 	friend std::ostream& operator<<(std::ostream&, Zona);
 	friend std::istream& operator>>(std::istream&, Zona&);
+
 };
 
