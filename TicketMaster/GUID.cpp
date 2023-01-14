@@ -19,6 +19,11 @@ namespace Utils {
 		}
 	}
 
+	void GUID::reinit(std::string cod) const
+	{
+		this->cod = cod;
+	}
+
 	char GUID::getCaracterRandom()
 	{
 		return caractereAdmise[rand() % (caractereAdmise.length() - 1)];
@@ -40,7 +45,7 @@ namespace Utils {
 		return this->cod == g.cod;
 	}
 
-	GUID::operator std::string()
+	GUID::operator std::string() const
 	{
 		return cod;
 	}

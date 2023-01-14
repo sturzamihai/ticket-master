@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Client">
       <UniqueIdentifier>{234fbced-a8de-45d6-bd0c-63a1b50ac1a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utils\Observator">
+      <UniqueIdentifier>{7c802beb-f1df-4cd6-81fe-f6e598e37d17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -106,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="Serializabil.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Observator.h">
+      <Filter>Header Files\Utils\Observator</Filter>
+    </ClInclude>
+    <ClInclude Include="Subiect.h">
+      <Filter>Header Files\Utils\Observator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

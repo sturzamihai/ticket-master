@@ -2,8 +2,9 @@
 #include <string.h>
 #include <iostream>
 #include "Zona.h"
+#include "Serializabil.h"
 
-class Locatie
+class Locatie : public Serializabil
 {
 private:
 	char* nume;
@@ -12,6 +13,7 @@ private:
 	Zona* zone;
 
 public:
+	/* Constructori */
 	Locatie();
 	Locatie(const char* nume);
 	Locatie(const char* nume, int nrZone, Zona* zone);
@@ -19,32 +21,30 @@ public:
 	Locatie& operator=(const Locatie& l);
 	~Locatie();
 
-	/* Getters si Setters*/
-
+	/* Getters*/
 	char* getNume();
 	std::string getNumeString();
-	void setNume(const char* nume);
-
 	int getNrZone();
 	Zona getZona(int index);
-	Zona operator[](int index);
 
+	/* Setters */
+	void setNume(const char* nume);
 	void setZone(Zona* zone, int nrZone);
 	void adaugareZona(const Zona& z);
 
 	/* Metode */
-
 	int getCapacitateMaxima();
 	bool vanzareLoc(int zona, int nrRand, int nrLoc);
 	void setPretLocuri(int zona, float pret);
 	void setPretLocuri(float pret);
 
 	/* Operatori */
-
-	// TODO: verificam daca o locatie a unui eveniment este egala (are ac zone "ocupate") cu o alta locatie pentru blocarea crearii unui eveniment nou in ac perioada
-	bool operator==(const Locatie& l);
-
+	Zona operator[](int index);
 	friend std::ostream& operator<<(std::ostream&, Locatie);
 	friend std::istream& operator>>(std::istream&, Locatie&);
+
+	/* Serializabil */
+	void serializare(std::ofstream& f);
+	void deserializare(std::ifstream& f);
 };
 

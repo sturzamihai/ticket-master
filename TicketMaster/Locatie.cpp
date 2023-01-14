@@ -1,4 +1,5 @@
 #include "Locatie.h"
+#include "TicketMaster.h"
 
 Locatie::Locatie()
 {
@@ -226,7 +227,7 @@ std::ostream& operator<<(std::ostream& out, Locatie l)
 	}
 	else
 	{
-		out << "Locatia nu are zone create";
+		out << "Locatia nu are zone create" << std::endl;
 	}
 
 	return out;
@@ -256,5 +257,48 @@ std::istream& operator>>(std::istream& in, Locatie& l)
 		in >> l.zone[i];
 	}
 
+	TicketMaster* platforma = TicketMaster::getInstanta();
+	platforma->adaugareLocatie(l);
+
 	return in;
+}
+
+void Locatie::serializare(std::ofstream& f)
+{
+	short dimNume = strlen(nume);
+	f.write((char*)&dimNume, sizeof(dimNume));
+	f.write(nume, dimNume + 1);
+
+	f.write((char*)&nrZone, sizeof(nrZone));
+	for (int i = 0; i < nrZone; i++)
+	{
+		zone[i].serializare(f);
+	}
+}
+
+void Locatie::deserializare(std::ifstream& f)
+{
+	short dimNume = 0;
+	f.read((char*)&dimNume, sizeof(dimNume));
+	
+	if (nume != nullptr)
+	{
+		delete[] nume;
+	}
+
+	nume = new char[dimNume + 1];
+	f.read(nume, dimNume + 1);
+
+	f.read((char*)&nrZone, sizeof(nrZone));
+
+	if (zone != nullptr) {
+		delete[] zone;
+	}
+
+	zone = new Zona[nrZone];
+	for (int i = 0; i < nrZone; i++)
+	{
+		zone[i].deserializare(f);
+	}
+	
 }

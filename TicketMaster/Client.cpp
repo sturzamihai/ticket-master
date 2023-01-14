@@ -1,5 +1,6 @@
 #include "Eveniment.fwd.h"
 #include "Client.h"
+#include "TicketMaster.h"
 
 Client::Client()
 {
@@ -58,6 +59,15 @@ std::istream& operator>>(std::istream& in, Client& c)
 	std::cout << "Adresa de email: ";
 	in >> std::ws;
 	std::getline(in, c.email);
+
+	TicketMaster* platforma = TicketMaster::getInstanta();
+	while (platforma->esteClientExistent(c.email))
+	{
+		std::cout << "Adresa de email introdusa deja exista." << std::endl;
+		std::cout << "Reintrodu adresa de email: ";
+		in >> std::ws;
+		std::getline(in, c.email);
+	}
 
 	std::cout << "Parola: ";
 	std::string parola = Utils::citireConsolaParola(in);

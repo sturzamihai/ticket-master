@@ -11,7 +11,7 @@ namespace Utils
 		static int nrParti;
 		static std::string separator;
 
-		std::string cod;
+		mutable std::string cod;
 
 		char getCaracterRandom();
 		std::string genereazaParte();
@@ -19,8 +19,10 @@ namespace Utils
 	public:
 		GUID();
 
+		void reinit(std::string cod) const;
+
 		bool operator==(const GUID& c);
-		explicit operator std::string();
+		explicit operator std::string() const;
 
 		static int testareColiziune(int nrGuidGenerate);
 	};

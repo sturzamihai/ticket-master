@@ -281,3 +281,50 @@ std::istream& operator>>(std::istream& in, Zona& z)
 
 	return in;
 }
+
+void Zona::serializare(std::ofstream& f)
+{
+	short dimNume = nume.length();
+	f.write((char*)&dimNume, sizeof(dimNume));
+	f.write(nume.c_str(), dimNume+1);
+
+	f.write((char*)&nrRanduri, sizeof(nrRanduri));
+	f.write((char*)&nrLocuriPerRand, sizeof(nrLocuriPerRand));
+
+	for (int i = 0; i < nrRanduri; i++)
+	{
+		for (int j = 0; j < nrRanduri; j++)
+		{
+			f.write((char*)&hartaLocuri[i][j], sizeof(hartaLocuri[i][j]));
+		}
+	}
+
+	f.write((char*)&pretPerLoc, sizeof(pretPerLoc));
+}
+
+void Zona::deserializare(std::ifstream& f)
+{
+	short dimNume = 0;
+	f.read((char*)&dimNume, sizeof(dimNume));
+
+	char* n = new char[dimNume + 1];
+	f.read(n, dimNume + 1);
+	nume = n;
+	delete[] n;
+
+	f.read((char*)&nrRanduri, sizeof(nrRanduri));
+	f.read((char*)&nrLocuriPerRand, sizeof(nrLocuriPerRand));
+
+	deleteHartaLocuri();
+	hartaLocuri = new Loc*[nrRanduri];
+	for (int i = 0; i < nrRanduri; i++)
+	{
+		hartaLocuri[i] = new Loc[nrLocuriPerRand];
+		for (int j = 0; j < nrLocuriPerRand; j++)
+		{
+			f.read((char*)&hartaLocuri[i][j], sizeof(hartaLocuri[i][j]));
+		}
+	}
+
+	f.read((char*)&pretPerLoc, sizeof(pretPerLoc));
+}

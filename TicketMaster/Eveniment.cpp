@@ -6,8 +6,8 @@ Eveniment::Eveniment()
 {
 	nume = "N/A";
 
-	nrBileteVandute = 0;
-	bilete = nullptr;
+	/*nrBileteVandute = 0;
+	bilete = nullptr;*/
 }
 
 Eveniment::Eveniment(std::string nume, Locatie locatie, Data dataInceput, Data dataSfarsit) : Eveniment::Eveniment()
@@ -20,7 +20,8 @@ Eveniment::Eveniment(std::string nume, Locatie locatie, Data dataInceput, Data d
 
 Eveniment::Eveniment(const Eveniment& e) : Eveniment::Eveniment(e.nume, e.locatie, e.dataInceput, e.dataSfarsit)
 {
-	if (e.bilete != nullptr && e.nrBileteVandute)
+	bilete = e.bilete;
+	/*if (e.bilete != nullptr && e.nrBileteVandute)
 	{
 		nrBileteVandute = e.nrBileteVandute;
 		bilete = new Bilet[e.nrBileteVandute];
@@ -29,14 +30,18 @@ Eveniment::Eveniment(const Eveniment& e) : Eveniment::Eveniment(e.nume, e.locati
 		{
 			bilete[i] = e.bilete[i];
 		}
-	}
+	}*/
 }
 
 Eveniment& Eveniment::operator=(const Eveniment& e)
 {
 	if (this != &e)
 	{
-		// TODO
+		nume = e.nume;
+		locatie = e.locatie;
+		dataInceput = e.dataInceput;
+		dataSfarsit = e.dataSfarsit;
+		bilete = e.bilete;
 	}
 
 	return *this;
@@ -44,27 +49,27 @@ Eveniment& Eveniment::operator=(const Eveniment& e)
 
 Eveniment::~Eveniment()
 {
-	if (bilete != nullptr)
+	/*if (bilete != nullptr)
 	{
 		delete[] bilete;
 		bilete = nullptr;
-	}
+	}*/
 }
 
-void Eveniment::setBilete(Bilet* bilete, int nrBileteVandute)
-{
-	if (bilete != nullptr && nrBileteVandute > 0)
-	{
-		this->nrBileteVandute = nrBileteVandute;
-
-		if (this->bilete != nullptr)
-			delete[] this->bilete;
-
-		this->bilete = new Bilet[nrBileteVandute];
-		for (int i = 0; i < nrBileteVandute; i++)
-			this->bilete[i] = bilete[i];
-	}
-}
+//void Eveniment::setBilete(Bilet* bilete, int nrBileteVandute)
+//{
+//	if (bilete != nullptr && nrBileteVandute > 0)
+//	{
+//		this->nrBileteVandute = nrBileteVandute;
+//
+//		if (this->bilete != nullptr)
+//			delete[] this->bilete;
+//
+//		this->bilete = new Bilet[nrBileteVandute];
+//		for (int i = 0; i < nrBileteVandute; i++)
+//			this->bilete[i] = bilete[i];
+//	}
+//}
 
 std::string Eveniment::getNume()
 {
@@ -110,22 +115,8 @@ bool Eveniment::vanzareBilet(Client& client, int zona, int nrRand, int nrLoc)
 
 	if (succesVanzare)
 	{
-		Bilet biletNou(* this, client);
-
-		if (bilete != nullptr)
-		{
-			Bilet* copieBilete = new Bilet[nrBileteVandute + 1];
-			for (int i = 0; i < nrBileteVandute; i++)
-				copieBilete[i] = bilete[i];
-
-			copieBilete[nrBileteVandute] = biletNou;
-			setBilete(copieBilete, nrBileteVandute + 1);
-		}
-		else {
-			Bilet* copieBilete = new Bilet[1];
-			copieBilete[0] = biletNou;
-			setBilete(copieBilete, 1);
-		}
+		Bilet biletNou(*this, client, nrRand, nrLoc, locatie.getZona(zona).getPret());
+		bilete.insert(make_pair(biletNou.getId(), biletNou));
 	}
 
 	return false;
@@ -241,6 +232,8 @@ std::istream& operator>>(std::istream& in, Eveniment& e)
 
 		e.locatie.setPretLocuri(pretZone);
 	}
+
+	platforma->adaugareEveniment(e);
 
 	return in;
 }

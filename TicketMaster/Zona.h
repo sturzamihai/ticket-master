@@ -4,7 +4,7 @@
 #include "Serializabil.h"
 #include "Locatie.fwd.h"
 
-class Zona
+class Zona : public Serializabil
 {
 private:
 	std::string nume;
@@ -17,23 +17,22 @@ private:
 	void deleteHartaLocuri();
 
 public:
+	/* Constructori */
 	Zona();
 	Zona(std::string nume, int nrRanduri, int nrLocuriPerRand, float pretPerLoc);
 	Zona(const Zona& z);
 	Zona& operator=(const Zona& z);
 	~Zona();
 
-	/* Getters si Setters */
-
-	void setNume(std::string nume);
+	/* Getters */
 	std::string getNume();
-
-	void setPret(float pretPerLoc);
 	float getPret();
-
 	int getNrRanduri();
 	int getNrLocuriPerRand();
-	
+
+	/* Setters */
+	void setNume(std::string nume);
+	void setPret(float pretPerLoc);
 	void setHartaLocuri(Loc** hartaLocuri, int nrRanduri, int nrLocuriPerRand);
 
 	/* Metode */
@@ -50,5 +49,8 @@ public:
 	friend std::ostream& operator<<(std::ostream&, Zona);
 	friend std::istream& operator>>(std::istream&, Zona&);
 
+	/* Serializabil */
+	void serializare(std::ofstream& f);
+	void deserializare(std::ifstream& f);
 };
 

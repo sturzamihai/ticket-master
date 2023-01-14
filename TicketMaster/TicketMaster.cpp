@@ -1,5 +1,6 @@
 #include "TicketMaster.h"
 #include "Eveniment.h"
+#include <iomanip>
 
 TicketMaster* TicketMaster::tm_ = nullptr;
 
@@ -17,14 +18,6 @@ TicketMaster::TicketMaster()
 {
 	std::cout << "----- TICKET MASTER (v0.1.2) -----" << std::endl;
 	contextClient = nullptr;
-
-	Client contAdmin;
-	std::cin >> contAdmin;
-	contAdmin.setRolAdmin(true);
-	clienti.insert({ contAdmin.getEmail(),contAdmin });
-
-	Locatie a("TEST!!!");
-	locatii.push_back(a);
 }
 
 void TicketMaster::setEvenimente(std::vector<Eveniment> evenimente)
@@ -66,7 +59,20 @@ void TicketMaster::comenziNeautentificat()
 
 	if (comanda == "1")
 	{
-		std::cout << "Functie in curs de implementare..." << std::endl;
+		std::cout << "--- Evenimente ---" << std::endl;
+		if (evenimente.empty())
+		{
+			std::cout << "Nu exista evenimente create." << std::endl;
+		}
+
+		for (int i = 0; i < evenimente.size(); i++)
+		{
+			std::cout << std::setw(3) << i + 1 << ". ";
+			std::cout << evenimente[i].getNume() << std::endl;
+
+			std::cout << std::setw(3) << "";
+			std::cout << "Locatie: " << evenimente[i].getLocatie().getNumeString() << std::endl;
+		}
 		start();
 	}
 
@@ -169,6 +175,7 @@ void TicketMaster::comenziAdmin()
 		Eveniment e;
 		std::cin >> e;
 		adaugareEveniment(e);
+		start();
 	}
 
 	if (comanda == "4")
@@ -180,7 +187,19 @@ void TicketMaster::comenziAdmin()
 
 void TicketMaster::start()
 {
+	if (clienti.empty())
+	{
+		Client contAdmin;
+		std::cin >> contAdmin;
+		contAdmin.setRolAdmin(true);
+		clienti.insert({ contAdmin.getEmail(),contAdmin });
+	}
+
+	system("CLS");
+
+	std::cout << "===========" << std::endl;
 	std::cout << "-> Meniu <-" << std::endl;
+	std::cout << "===========" << std::endl;
 
 	if (contextClient == nullptr)
 	{
@@ -203,7 +222,22 @@ void TicketMaster::adaugareLocatie(Locatie e)
 	locatii.push_back(e);
 }
 
+bool TicketMaster::esteClientExistent(std::string email)
+{
+	return clienti.find(email) != clienti.end();
+}
+
 std::vector<Locatie> TicketMaster::getLocatii()
 {
 	return locatii;
+}
+
+Client TicketMaster::getClient(std::string email)
+{
+	if (esteClientExistent(email))
+	{
+		return clienti.at(email);
+	}
+
+	throw IndexInvalidException();
 }

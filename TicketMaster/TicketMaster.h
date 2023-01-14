@@ -31,16 +31,20 @@ private:
 	void prelucrareComenziAutentificat(std::string comanda);
 	void prelucrareComenziAdmin(std::string comanda);
 public:
+	/* Singleton */
 	TicketMaster(const TicketMaster& tm) = delete;
 	void operator=(const TicketMaster&) = delete;
-
 	static TicketMaster* getInstanta();
 
-	void start();
+	/* Getters */
+	std::vector<Locatie> getLocatii();
+	Client getClient(std::string email);
 
+	/* Metode */
+	void start();
 	void adaugareEveniment(Eveniment e);
 	void adaugareLocatie(Locatie e);
+	bool esteClientExistent(std::string email);
 
-	std::vector<Locatie> getLocatii();
 };
 
