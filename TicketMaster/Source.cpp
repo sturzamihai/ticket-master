@@ -7,23 +7,20 @@ int main(char argc, char** argv)
 
 	if (argc > 1)
 	{
-		std::string command = argv[0];
+		std::string command = argv[1];
 		
 		if (command == "-h" || command == "--help")
 		{
 			std::cout << "Comenzi disponibile:" << std::endl;
 			std::cout << argv[0] << " -f " << "[numefisier.extensie] (Verificare daca codurile de bilet dintr-un fisier sunt valide)" << std::endl;
-			std::cout << argv[0] << " -b " << "[codbilet] (Verificare daca codul de bilet este valid)";
 		}
-
-		if (command == "-f")
+		else if (command == "-f")
 		{
-			// TODO
+			std::string fisierCoduri = argv[2];
+			platforma->cli(fisierCoduri);
 		}
-
-		if (command == "-b")
-		{
-			// TODO
+		else {
+			std::cout << "Parametrul introdus este necunoscut. Te rugam ruleaza -h sau --help pentru mai mule informatii.";
 		}
 	}
 	else {

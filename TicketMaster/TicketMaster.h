@@ -55,6 +55,7 @@ public:
 
 	/* Metode */
 	void start();
+	void cli(std::string numeFisier);
 	void adaugareEveniment(Eveniment e);
 	void adaugareLocatie(Locatie e);
 	bool esteClientExistent(std::string email);

@@ -515,6 +515,33 @@ void TicketMaster::start()
 	}
 }
 
+void TicketMaster::cli(std::string numeFisier)
+{
+	std::ifstream fBilete(numeFisier);
+
+	if (!fBilete.good())
+	{
+		std::cout << "Fisierul tastat nu este unul valid. Reincercati cu un fisier valid.";
+		return;
+	}
+
+	while (!fBilete.eof())
+	{
+		std::string biletDeCautat;
+		std::getline(fBilete, biletDeCautat);
+		try {
+			Bilet b = cautareBilet(biletDeCautat);
+			std::cout << "Biletul " << biletDeCautat << " este valid." << std::endl;
+		}
+		catch (IndexInvalidException err)
+		{
+			std::cout << "Biletul " << biletDeCautat << " NU este valid." << std::endl;
+		}
+	}
+
+	fBilete.close();
+}
+
 void TicketMaster::adaugareEveniment(Eveniment e)
 {
 	evenimente.push_back(e);
