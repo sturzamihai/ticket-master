@@ -110,15 +110,56 @@ void TicketMaster::afisareEvenimente()
 
 		if (selectie != 0)
 		{
-			system("CLS");
-			std::cout << evenimente[selectie - 1] << std::endl;
-			system("PAUSE");
-			afisareEvenimente();
+			afisareEveniment(selectie-1);
 		}
 	}
 
 	system("PAUSE");
 	start();
+}
+
+void TicketMaster::afisareEveniment(int pozEveniment)
+{
+	system("CLS");
+
+	if (pozEveniment >= 0 && pozEveniment < evenimente.size())
+	{
+		std::cout << evenimente[pozEveniment] << std::endl;
+
+		if (contextClient)
+		{
+			std::cout << "Comenzi disponibile: " << std::endl;
+			std::cout << "1. Cumparare bilet" << std::endl;
+			if (contextClient->getRolAdmin())
+			{
+				std::cout << "2. Vezi vanzari eveniment" << std::endl;
+			}
+
+			int selectie;
+			std::cout << "Introdu comanda dorita sau 0 pentru reintoarcerea la meniu: ";
+			std::cin >> selectie;
+
+			if (selectie == 1)
+			{
+
+			}
+			else if (selectie == 2 && contextClient->getRolAdmin())
+			{
+
+			}
+			else
+			{
+				std::cout << "Comanda selectata este invalida. Te rugam reincearca." << std::endl;
+				afisareEveniment(pozEveniment);
+			}
+		}
+		else {
+			std::cout << "Pentru a cumpara un bilet te rugam sa te autentifici." << std::endl;
+		}
+	}
+
+	system("PAUSE");
+	afisareEvenimente();
 }
 
 void TicketMaster::creareEveniment()

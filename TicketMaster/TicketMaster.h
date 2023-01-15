@@ -34,6 +34,7 @@ private:
 
 	/* Comenzi evenimente */
 	void afisareEvenimente();
+	void afisareEveniment(int pozEveniment);
 	void creareEveniment();
 
 	/* Salvare si restaurare platforma */
