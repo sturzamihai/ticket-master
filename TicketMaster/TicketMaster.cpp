@@ -395,6 +395,7 @@ void TicketMaster::comenziNeautentificat()
 	std::cout << "2. Autentificare" << std::endl;
 	std::cout << "3. Inregistrare" << std::endl;
 
+	std::cout << "Introduceti numarul pentru navigare: ";
 	std::string comanda;
 	std::cin >> std::ws;
 	std::getline(std::cin, comanda);
@@ -427,6 +428,7 @@ void TicketMaster::comenziAutentificat()
 	std::cout << "2. Contul meu" << std::endl;
 	std::cout << "3. Log out" << std::endl;
 
+	std::cout << "Introduceti numarul pentru navigare: ";
 	std::string comanda;
 	std::cin >> std::ws;
 	std::getline(std::cin, comanda);
@@ -460,6 +462,7 @@ void TicketMaster::comenziAdmin()
 	std::cout << "3. Contul meu" << std::endl;
 	std::cout << "4. Log out" << std::endl;
 
+	std::cout << "Introduceti numarul pentru navigare: ";
 	std::string comanda;
 	std::cin >> std::ws;
 	std::getline(std::cin, comanda);
