@@ -105,6 +105,31 @@ void TicketMaster::vizualizareCont()
 		}
 	}
 
+	int selectie;
+	std::cout << "Introdu numarul din dreptul biletului dorit pentru Check-In sau 0 pentru reintoarcerea la meniu: ";
+	std::cin >> selectie;
+
+	while ((selectie == 0 || (selectie - 1) < bileteClient.size()) == false)
+	{
+		std::cout << "Comanda introdusa nu este corecta." << std::endl;
+		std::cout << "Reintrodu comanda: ";
+		std::cin >> selectie;
+	}
+
+	if (selectie != 0)
+	{
+		system("CLS");
+		try {
+			Bilet b = cautareBilet(bileteClient[selectie - 1]);
+			std::cout << "==== COD BILET ====" << std::endl;
+			std::cout << b.getId() << std::endl;
+		}
+		catch (IndexInvalidException err)
+		{
+			std::cout << "A aparut o eroare la afisarea codului biletului. Te rugam reincearca.";
+		}
+	}
+
 	system("PAUSE");
 	start();
 }
@@ -328,6 +353,11 @@ void TicketMaster::restaurarePlatforma()
 		Eveniment e;
 		e.deserializare(fEvenimente);
 		evenimente.push_back(e);
+
+		if (std::find(locatii.begin(), locatii.end(), e.getLocatie()) == locatii.end())
+		{
+			locatii.push_back(e.getLocatie());
+		}
 	}
 	fEvenimente.close();
 }

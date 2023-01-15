@@ -214,6 +214,24 @@ void Locatie::setPretLocuri(float pret)
 	}
 }
 
+bool Locatie::operator==(const Locatie& l)
+{
+	if (strcmp(nume, l.nume) != 0 || nrZone != l.nrZone)
+	{
+		return false;
+	}
+
+	for (int i = 0; i < nrZone; i++)
+	{
+		if (l.zone[i].getNume() != zone[i].getNume())
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 std::ostream& operator<<(std::ostream& out, Locatie l)
 {
 	out << "Nume locatie:" << l.nume << std::endl;

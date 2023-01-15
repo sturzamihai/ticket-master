@@ -11,9 +11,6 @@ private:
 	std::string nume;
 	Locatie locatie;
 
-	//int nrBileteVandute;
-	//Bilet* bilete;
-	//void setBilete(Bilet* bilete, int nrBilete);
 	std::map<std::string, Bilet> bilete;
 	void reassignareBilete();
 

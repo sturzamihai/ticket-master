@@ -289,9 +289,7 @@ std::istream& operator>>(std::istream& in, Zona& z)
 
 void Zona::serializare(std::ofstream& f)
 {
-	short dimNume = nume.length();
-	f.write((char*)&dimNume, sizeof(dimNume));
-	f.write(nume.c_str(), dimNume+1);
+	Utils::serializareString(nume, f);
 
 	f.write((char*)&nrRanduri, sizeof(nrRanduri));
 	f.write((char*)&nrLocuriPerRand, sizeof(nrLocuriPerRand));
@@ -309,13 +307,7 @@ void Zona::serializare(std::ofstream& f)
 
 void Zona::deserializare(std::ifstream& f)
 {
-	short dimNume = 0;
-	f.read((char*)&dimNume, sizeof(dimNume));
-
-	char* n = new char[dimNume + 1];
-	f.read(n, dimNume + 1);
-	nume = n;
-	delete[] n;
+	nume = Utils::deserializareString(f);
 
 	f.read((char*)&nrRanduri, sizeof(nrRanduri));
 	f.read((char*)&nrLocuriPerRand, sizeof(nrLocuriPerRand));

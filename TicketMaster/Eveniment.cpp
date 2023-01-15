@@ -173,7 +173,7 @@ std::istream& operator>>(std::istream& in, Eveniment& e)
 		std::cout << "Introdu 0 pentru a crea o locatie noua sau orice numar din fata numelui locatiei pentru folosirea acesteia: ";
 		in >> selectie;
 
-		while (selectie < 0 || (selectie-1) >= locatii.size())
+		while ((selectie == 0 || (selectie-1) < locatii.size()) == false)
 		{
 			std::cout << "Comanda introdusa nu este corecta. Reintrodu comanda: ";
 			in >> selectie;

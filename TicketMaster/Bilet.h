@@ -35,6 +35,9 @@ public:
 	int getNrRand();
 	int getNrLoc();
 
+	/* Operatori */
+	friend std::ostream& operator<<(std::ostream& out, const Bilet& b);
+
 	/* Serializabil */
 	void serializare(std::ofstream& f);
 	void deserializare(std::ifstream& f);

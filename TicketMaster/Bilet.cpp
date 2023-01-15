@@ -3,6 +3,7 @@
 #include "Eveniment.h"
 #include <iostream>
 #include "TicketMaster.h"
+#include <iomanip>
 
 Bilet::Bilet()
 {
@@ -78,6 +79,17 @@ int Bilet::getNrRand()
 int Bilet::getNrLoc()
 {
 	return nrLoc;
+}
+
+
+std::ostream& operator<<(std::ostream& out, const Bilet& b)
+{
+	std::cout << "==== Bilet la: " << b.eveniment->getNume() << " ====" << std::endl;
+	std::cout << "Data: " << b.eveniment->getDataInceput() << " - " << b.eveniment->getDataSfarsit() << std::endl;
+	std::cout << "Zona: " << b.eveniment->getLocatie().getZona(b.nrZona).getNume() << std::endl;
+	std::cout << "Randul: " << b.nrRand << ", Loc: " << b.nrLoc << std::endl;
+
+	return out;
 }
 
 void Bilet::serializare(std::ofstream& f)

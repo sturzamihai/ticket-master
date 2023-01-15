@@ -66,7 +66,7 @@ bool Data::operator>(const Data& d)
 
 std::ostream& operator<<(std::ostream& out, Data d)
 {
-	out << d.zi << "." << d.luna << "." << d.an << " ";
+	out << (d.zi < 10 ? "0" : "") << d.zi << "." << (d.luna < 10 ? "0" : "") << d.luna << "." << d.an << " ";
 	out << (d.ora < 10 ? "0" : "") << d.ora << ":" << (d.minut < 10 ? "0" : "") << d.minut;
 
 	return out;

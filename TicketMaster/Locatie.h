@@ -40,6 +40,7 @@ public:
 
 	/* Operatori */
 	Zona operator[](int index);
+	bool operator==(const Locatie& l);
 	friend std::ostream& operator<<(std::ostream&, Locatie);
 	friend std::istream& operator>>(std::istream&, Locatie&);
 
