@@ -127,5 +127,26 @@ std::istream& operator>>(std::istream& in, Data& d)
 	return in;
 }
 
+
+void Data::serializare(std::ofstream& f)
+{
+	f.write((char*)&zi, sizeof(zi));
+	f.write((char*)&luna, sizeof(luna));
+	f.write((char*)&an, sizeof(an));
+
+	f.write((char*)&ora, sizeof(minut));
+	f.write((char*)&ora, sizeof(minut));
+}
+
+void Data::deserializare(std::ifstream& f)
+{
+	f.read((char*)&zi, sizeof(zi));
+	f.read((char*)&luna, sizeof(luna));
+	f.read((char*)&an, sizeof(an));
+
+	f.read((char*)&ora, sizeof(minut));
+	f.read((char*)&ora, sizeof(minut));
+}
+
 DataInvalidaException::DataInvalidaException() : std::exception("Data introdusa nu este valida") {}
 DataInvalidaException::DataInvalidaException(std::string mesaj) : std::exception(mesaj.c_str()) {}

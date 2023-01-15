@@ -115,7 +115,7 @@ bool Eveniment::vanzareBilet(Client& client, int zona, int nrRand, int nrLoc)
 
 	if (succesVanzare)
 	{
-		Bilet biletNou(*this, client, nrRand, nrLoc, locatie.getZona(zona).getPret());
+		Bilet biletNou(*this, client, zona, nrRand, nrLoc, locatie.getZona(zona).getPret());
 		bilete.insert(make_pair(biletNou.getId(), biletNou));
 	}
 
@@ -236,4 +236,50 @@ std::istream& operator>>(std::istream& in, Eveniment& e)
 	platforma->adaugareEveniment(e);
 
 	return in;
+}
+
+
+void Eveniment::serializare(std::ofstream& f)
+{
+	short dimNume = nume.length();
+	f.write((char*)&dimNume, sizeof(dimNume));
+	f.write(nume.c_str(), dimNume + 1);
+
+	locatie.serializare(f);
+
+	int dimBilete = bilete.size();
+	f.write((char*)dimBilete, sizeof(dimBilete));
+	for (std::map<std::string, Bilet>::iterator it = bilete.begin(); it != bilete.end(); it++)
+	{
+		(*it).second.serializare(f);
+	}
+
+	dataInceput.serializare(f);
+	dataSfarsit.serializare(f);
+}
+
+void Eveniment::deserializare(std::ifstream& f)
+{
+	short dimNume = 0;
+	f.read((char*)&dimNume, sizeof(dimNume));
+
+	char* n = new char[dimNume + 1];
+	f.read(n, dimNume + 1);
+	nume = n;
+	delete[] n;
+
+	locatie.deserializare(f);
+
+	bilete.clear();
+	int dimBilete = 0;
+	f.read((char*)&dimBilete, sizeof(dimBilete));
+	for (int i = 0; i < dimBilete; i++)
+	{
+		Bilet e;
+		e.deserializare(f);
+		bilete.insert(make_pair(e.getId(), e));
+	}
+
+	dataInceput.deserializare(f);
+	dataSfarsit.deserializare(f);
 }

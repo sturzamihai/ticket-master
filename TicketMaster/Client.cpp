@@ -50,8 +50,6 @@ std::ostream& operator<<(std::ostream& out, Client c)
 
 std::istream& operator>>(std::istream& in, Client& c)
 {
-	std::cout << "--- CREARE CONT ---" << std::endl;
-
 	std::cout << "Nume client: ";
 	in >> std::ws;
 	std::getline(in, c.nume);
@@ -86,4 +84,22 @@ std::istream& operator>>(std::istream& in, Client& c)
 	c.parola = parola;
 
 	return in;
+}
+
+void Client::serializare(std::ofstream& f)
+{
+	Utils::serializareString(email, f);
+	Utils::serializareString(parola, f);
+	Utils::serializareString(nume, f);
+
+	f.write((char*)&esteAdmin, sizeof(esteAdmin));
+}
+
+void Client::deserializare(std::ifstream& f)
+{
+	email = Utils::deserializareString(f);
+	parola = Utils::deserializareString(f);
+	nume = Utils::deserializareString(f);
+
+	f.read((char*)&esteAdmin, sizeof(esteAdmin));
 }

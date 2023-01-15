@@ -2,8 +2,9 @@
 #include <exception>
 #include <string>
 #include <iostream>
+#include "Serializabil.h"
 
-class Data
+class Data : Serializabil
 {
 private:
 	unsigned int zi;
@@ -23,6 +24,10 @@ public:
 
 	friend std::ostream& operator<<(std::ostream&, Data);
 	friend std::istream& operator>>(std::istream&, Data&);
+
+	/* Serializabil */
+	void serializare(std::ofstream& f);
+	void deserializare(std::ifstream& f);
 };
 
 class DataInvalidaException : public std::exception {

@@ -23,4 +23,24 @@ namespace Utils
 
 		return date;
 	}
+
+	void serializareString(std::string str, std::ofstream& f)
+	{
+		short dimStr = str.length();
+		f.write((char*)&dimStr, sizeof(dimStr));
+		f.write(str.c_str(), dimStr + 1);
+	}
+
+	std::string deserializareString(std::ifstream& f)
+	{
+		short dimStr = 0;
+		f.read((char*)&dimStr, sizeof(dimStr));
+
+		char* s = new char[dimStr + 1];
+		f.read(s, dimStr + 1);
+		std::string str = s;
+		delete[] s;
+
+		return str;
+	}
 }

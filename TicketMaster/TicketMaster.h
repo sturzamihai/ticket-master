@@ -4,10 +4,12 @@
 #include "Locatie.h"
 #include <map>
 #include <vector>
+#include <functional>
 
 class TicketMaster
 {
 private:
+
 	static TicketMaster* tm_;
 	TicketMaster();
 
@@ -27,9 +29,13 @@ private:
 	void comenziAutentificat();
 	void comenziAdmin();
 
-	void prelucrareComenziNeautentificat(std::string comanda);
-	void prelucrareComenziAutentificat(std::string comanda);
-	void prelucrareComenziAdmin(std::string comanda);
+	/* Auth commands */
+	void logare();
+	void delogare();
+	void creareCont(bool esteAdmin);
+
+	void salvarePlatforma();
+	void restaurarePlatforma();
 public:
 	/* Singleton */
 	TicketMaster(const TicketMaster& tm) = delete;

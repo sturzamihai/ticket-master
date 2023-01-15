@@ -265,9 +265,7 @@ std::istream& operator>>(std::istream& in, Locatie& l)
 
 void Locatie::serializare(std::ofstream& f)
 {
-	short dimNume = strlen(nume);
-	f.write((char*)&dimNume, sizeof(dimNume));
-	f.write(nume, dimNume + 1);
+	Utils::serializareString(nume, f);
 
 	f.write((char*)&nrZone, sizeof(nrZone));
 	for (int i = 0; i < nrZone; i++)

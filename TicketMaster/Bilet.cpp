@@ -11,7 +11,7 @@ Bilet::Bilet()
 	nrLoc = -1;
 }
 
-Bilet::Bilet(Eveniment& eveniment, Client& client, int nrRand, int nrLoc, unsigned int pret) : Bilet()
+Bilet::Bilet(Eveniment& eveniment, Client& client, int nrZona, int nrRand, int nrLoc, unsigned int pret) : Bilet()
 {
 	this->eveniment = &eveniment;
 	this->client = &client;
@@ -60,6 +60,7 @@ void Bilet::serializare(std::ofstream& f)
 	f.write(idBilet.c_str(), dimId + 1);
 
 	f.write((char*)&pret, sizeof(pret));
+	f.write((char*)&nrZona, sizeof(nrZona));
 	f.write((char*)&nrRand, sizeof(nrRand));
 	f.write((char*)&nrLoc, sizeof(nrLoc));
 
@@ -79,6 +80,7 @@ void Bilet::deserializare(std::ifstream& f)
 	delete[] n;
 
 	f.read((char*)&pret, sizeof(pret));
+	f.read((char*)&nrZona, sizeof(nrZona));
 	f.read((char*)&nrRand, sizeof(nrRand));
 	f.read((char*)&nrLoc, sizeof(nrLoc));
 

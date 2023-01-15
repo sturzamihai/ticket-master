@@ -5,7 +5,7 @@
 #include "Utils.h"
 #include "TicketMaster.h"
 
-class Eveniment
+class Eveniment : Serializabil
 {
 private:
 	std::string nume;
@@ -44,5 +44,9 @@ public:
 	/* Operatori */
 	friend std::ostream& operator<<(std::ostream&, Eveniment);
 	friend std::istream& operator>>(std::istream&, Eveniment&);
+
+	/* Serializabil */
+	void serializare(std::ofstream& f);
+	void deserializare(std::ifstream& f);
 };
 

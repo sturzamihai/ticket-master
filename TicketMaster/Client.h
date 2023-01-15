@@ -1,35 +1,42 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <vector>
 #include "Eveniment.fwd.h"
 #include "Utils.h"
 
-class Client
+class Client : Serializabil
 {
 private:
 	std::string email;
 	std::string parola;
-
 	std::string nume;
 
 	bool esteAdmin;
 
-	//int nrBileteCumparate;
-	//Bilet* bileteCumparate;
+	std::vector<Bilet*> bilete;
 
 public:
+	/* Constructori */
 	Client();
 	Client(std::string email, std::string parola);
 	Client(std::string email, std::string parola, std::string nume);
-	// Client(const Client& c);
-	// Client& operator=(const Client& c);
 
+	/* Getters */
 	std::string getEmail();
-	bool verificareParola(std::string parolaDeComparat);
-
 	bool getRolAdmin();
+
+	/* Setters */
 	void setRolAdmin(bool admin);
 
+	/* Metode */
+	bool verificareParola(std::string parolaDeComparat);
+
+	/* Operatori */
 	friend std::ostream& operator<<(std::ostream&, Client);
 	friend std::istream& operator>>(std::istream&, Client&);
+
+	/* Serializabil */
+	void serializare(std::ofstream& f);
+	void deserializare(std::ifstream& f);
 };

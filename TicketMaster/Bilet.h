@@ -11,6 +11,7 @@ private:
 
 	unsigned int pret;
 
+	int nrZona;
 	int nrRand;
 	int nrLoc;
 
@@ -19,7 +20,7 @@ private:
 
 	/* Constructori privati intentionat - dorim sa nu poata sa fie create bilete decat prin clasa Eveniment */
 	Bilet();
-	Bilet(Eveniment& eveniment, Client& client, int nrRand, int nrLoc, unsigned int pret);
+	Bilet(Eveniment& eveniment, Client& client, int nrZona, int nrRand, int nrLoc, unsigned int pret);
 
 	void reinitId(std::string id);
 

@@ -24,4 +24,6 @@ public:
 namespace Utils
 {
 	std::string citireConsolaParola(std::istream& in);
+	void serializareString(std::string str, std::ofstream& f);
+	std::string deserializareString(std::ifstream& f);
 }

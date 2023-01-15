@@ -1,8 +1,122 @@
 #include "TicketMaster.h"
 #include "Eveniment.h"
+#include <iostream>
+#include <fstream>
 #include <iomanip>
 
 TicketMaster* TicketMaster::tm_ = nullptr;
+
+void TicketMaster::logare()
+{
+	system("CLS");
+
+	std::cout << "===================" << std::endl;
+	std::cout << "-> Autentificare <-" << std::endl;
+	std::cout << "===================" << std::endl;
+
+	std::string emailClient;
+	std::cout << "Adresa de email: ";
+	std::cin >> std::ws;
+	std::getline(std::cin, emailClient);
+
+	std::cout << "Parola: ";
+	std::string parolaClient = Utils::citireConsolaParola(std::cin);
+
+	std::map<std::string, Client>::iterator it = clienti.find(emailClient);
+
+	if (it != clienti.end() && (*it).second.verificareParola(parolaClient))
+	{
+		contextClient = &((*it).second);
+		std::cout << "Autentificare cu succes." << std::endl;
+	}
+	else
+	{
+		std::cout << "Adresa de email sau parola introdusa nu este corecta." << std::endl;
+	}
+
+	system("pause");
+	start();
+}
+
+void TicketMaster::delogare()
+{
+	contextClient = nullptr;
+}
+
+void TicketMaster::creareCont(bool esteAdmin = false)
+{
+	system("CLS");
+
+	if (esteAdmin)
+	{
+		std::cout << "===============================" << std::endl;
+		std::cout << "-> Creare cont administrator <-" << std::endl;
+		std::cout << "===============================" << std::endl;
+	}
+	else
+	{
+		std::cout << "=================" << std::endl;
+		std::cout << "-> Creare cont <-" << std::endl;
+		std::cout << "=================" << std::endl;
+	}
+
+	Client contNou;
+	std::cin >> contNou;
+	contNou.setRolAdmin(esteAdmin);
+	clienti.insert({ contNou.getEmail(), contNou});
+	salvarePlatforma();
+	
+	std::cout << "Cont creat cu success." << std::endl;
+	system("pause");
+
+	start();
+}
+
+void TicketMaster::salvarePlatforma()
+{
+	std::ofstream fClienti("clienti.bin", std::ios::binary);
+	int dimClienti = clienti.size();
+	fClienti.write((char*)&dimClienti, sizeof(dimClienti));
+	for (std::map<std::string, Client>::iterator it = clienti.begin(); it != clienti.end(); it++)
+	{
+		(*it).second.serializare(fClienti);
+	}
+	fClienti.close();
+
+	std::ofstream fEvenimente("evenimente.bin", std::ios::binary);
+	int dimEvenimente = evenimente.size();
+	fEvenimente.write((char*)&dimEvenimente, sizeof(dimEvenimente));
+	for (int i = 0; i < dimEvenimente; i++)
+	{
+		evenimente[i].serializare(fEvenimente);
+	}
+	fEvenimente.close();
+}
+
+void TicketMaster::restaurarePlatforma()
+{
+	std::ifstream fClienti("clienti.bin", std::ios::binary);
+	int dimClienti = 0;
+	fClienti.read((char*)&dimClienti, sizeof(dimClienti));
+	for (int i = 0; i < dimClienti; i++)
+	{
+		Client c;
+		c.deserializare(fClienti);
+		clienti.insert(make_pair(c.getEmail(), c));
+	}
+	fClienti.close();
+
+	std::ifstream fEvenimente("evenimente.bin", std::ios::binary);
+	int dimEvenimente = 0;
+	fEvenimente.read((char*)&dimEvenimente, sizeof(dimEvenimente));
+	for (int i = 0; i < dimEvenimente; i++)
+	{
+		Eveniment e;
+		e.deserializare(fEvenimente);
+		evenimente.push_back(e);
+	}
+	fEvenimente.close();
+}
 
 TicketMaster* TicketMaster::getInstanta()
 {
@@ -16,8 +130,9 @@ TicketMaster* TicketMaster::getInstanta()
 
 TicketMaster::TicketMaster()
 {
-	std::cout << "----- TICKET MASTER (v0.1.2) -----" << std::endl;
+	std::cout << "TICKET MASTER (v0.1.2)" << std::endl;
 	contextClient = nullptr;
+	restaurarePlatforma();
 }
 
 void TicketMaster::setEvenimente(std::vector<Eveniment> evenimente)
@@ -78,43 +193,12 @@ void TicketMaster::comenziNeautentificat()
 
 	if (comanda == "2")
 	{
-		std::string emailClient;
-		std::string parolaClient;
-
-		std::cout << "Email: ";
-		std::cin >> std::ws;
-		std::cin >> emailClient;
-
-		std::cout << "Parola: ";
-		std::cin >> std::ws;
-		std::cin >> parolaClient;
-
-		try {
-			Client viitorContext = clienti.at(emailClient);
-
-			if (viitorContext.verificareParola(parolaClient))
-			{
-				setContextClient(viitorContext);
-				start();
-			}
-			else {
-				throw std::exception("Invalid email/pass");
-			}
-		}
-		catch (std::exception e)
-		{
-			std::cout << "Parola sau email-ul introdus nu este corect. Te rugam reincearca.";
-			start();
-		}
+		logare();
 	}
 	
 	if (comanda == "3")
 	{
-		Client context;
-		std::cin >> context;
-		clienti.insert({ context.getEmail(), context });
-		setContextClient(context);
-		start();
+		creareCont();
 	}
 }
 
@@ -142,8 +226,7 @@ void TicketMaster::comenziAutentificat()
 
 	if (comanda == "3")
 	{
-		deleteContextClient();
-		start();
+		delogare();
 	}
 }
 
@@ -180,8 +263,7 @@ void TicketMaster::comenziAdmin()
 
 	if (comanda == "4")
 	{
-		deleteContextClient();
-		start();
+		delogare();
 	}
 }
 
@@ -189,10 +271,7 @@ void TicketMaster::start()
 {
 	if (clienti.empty())
 	{
-		Client contAdmin;
-		std::cin >> contAdmin;
-		contAdmin.setRolAdmin(true);
-		clienti.insert({ contAdmin.getEmail(),contAdmin });
+		creareCont(true);
 	}
 
 	system("CLS");
