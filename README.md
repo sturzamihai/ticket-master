@@ -16,3 +16,6 @@ Proiect final POO, anul 2
 - Posibilitatea utilizarii din linia de comanda pentru verificarea ID-urilor biletelor
 
 Cerintele proiectului se pot gasi la adresa [aceasta (Google Docs)](https://docs.google.com/document/u/1/d/e/2PACX-1vTg53nIXzeXTzidhduHXHXL5puY6mZ9IIU_YVnLcPDZfKTz67sOlrXGnjxOLsmjRDI9s9vdOaSVzjZF/pub).
+
+## :rotating_light: Probleme identificate si posibile optimizari
+- Biletele sunt salvate pentru clienti sub forma ID-ului de bilet, lucru ce creste timpul de executie pe masura ce apar evenimente (`O(n*log(m))` pentru gasirea unui singur bilet salvat in lista clientului)
