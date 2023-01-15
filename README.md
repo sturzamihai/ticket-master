@@ -1,6 +1,20 @@
 # :tickets:TicketMaster
 Proiect final POO, anul 2
 
+## :pushpin: Mod de rulare
+
+Pentru rularea ghidata se ruleaza:
+```bash
+TicketMaster.exe
+```
+
+Pentru verificarea biletelor dintr-un fisier se ruleaza:
+```bash
+TicketMaster.exe -f [numefisier.txt]
+```
+
+Pentru afisarea mesajului acesta, se poate rula programul cu parametrul `-h` sau `--help`.
+
 ## :gear: Functionalitati
 - Creare locatii cu:
   - Numar dinamic de zone
