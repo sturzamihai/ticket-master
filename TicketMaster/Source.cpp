@@ -12,7 +12,8 @@ int main(char argc, char** argv)
 		if (command == "-h" || command == "--help")
 		{
 			std::cout << "Comenzi disponibile:" << std::endl;
-			std::cout << argv[0] << " -f " << "[numefisier.extensie] (Verificare daca codurile de bilet dintr-un fisier sunt valide)" << std::endl;
+			std::cout << argv[0] << " (Rulare clasica, prin consola)" << std::endl;
+			std::cout << argv[0] << " -f " << "[numefisier.txt] (Verificare daca codurile de bilet dintr-un fisier sunt valide)" << std::endl;
 		}
 		else if (command == "-f")
 		{
