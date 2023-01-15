@@ -3,6 +3,7 @@
 
 IndexInvalidException::IndexInvalidException() : std::exception("Indexul cautat nu este valid") {}
 VectorNullException::VectorNullException() : std::exception("Vectorul accesat este null") {}
+VanzareNereusitaException::VanzareNereusitaException() : std::exception("Vanzare nu a fost reusita") {}
 
 namespace Utils
 {
@@ -44,3 +45,5 @@ namespace Utils
 		return str;
 	}
 }
+
+

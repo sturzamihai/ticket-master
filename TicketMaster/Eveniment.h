@@ -15,6 +15,7 @@ private:
 	//Bilet* bilete;
 	//void setBilete(Bilet* bilete, int nrBilete);
 	std::map<std::string, Bilet> bilete;
+	void reassignareBilete();
 
 	Data dataInceput;
 	Data dataSfarsit;
@@ -32,6 +33,8 @@ public:
 	Locatie getLocatie();
 	Data getDataInceput();
 	Data getDataSfarsit();
+	int getNrBileteVandute();
+	Bilet getBilet(std::string idBilet);
 
 	/* Setters */
 	void setNume(std::string nume);
@@ -39,7 +42,8 @@ public:
 	void setData(Data dataInceput, Data dataSfarsit);
 
 	/* Metode */
-	bool vanzareBilet(Client& client, int zona, int nrRand, int nrLoc);
+	std::string vanzareBilet(int zona, int nrRand, int nrLoc);
+	float getSumaBileteVandute();
 
 	/* Operatori */
 	friend std::ostream& operator<<(std::ostream&, Eveniment);

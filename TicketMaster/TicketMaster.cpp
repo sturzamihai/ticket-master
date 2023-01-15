@@ -1,5 +1,6 @@
 #include "TicketMaster.h"
 #include "Eveniment.h"
+#include "Bilet.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -72,6 +73,42 @@ void TicketMaster::creareCont(bool esteAdmin = false)
 	start();
 }
 
+void TicketMaster::vizualizareCont()
+{
+	system("CLS");
+
+	std::cout << "================" << std::endl;
+	std::cout << "-> Contul meu <-" << std::endl;
+	std::cout << "================" << std::endl;
+
+	if (contextClient->getNume() != "N/A")
+	{
+		std::cout << "Bine ai venit, " << contextClient->getNume() << std::endl;
+	}
+
+	std::cout << "Biletele tale la evenimente sunt: " << std::endl;
+
+	std::vector<std::string> bileteClient = contextClient->getIdBilete();
+	for (int i = 0; i < bileteClient.size(); i++)
+	{
+		try
+		{
+			Bilet b = cautareBilet(bileteClient[i]);
+			std::cout << i + 1 << ". \tBilet la: " << b.getEveniment().getNume() << std::endl;
+			std::cout << "\tData: " << b.getEveniment().getDataInceput() << " - " << b.getEveniment().getDataSfarsit() << std::endl;
+			std::cout << "\tZona: " << b.getEveniment().getLocatie().getZona(b.getNrZona()).getNume() << std::endl;
+			std::cout << "\tRandul: " << b.getNrRand() << ", Loc: " << b.getNrLoc() << std::endl;
+		}
+		catch (IndexInvalidException err)
+		{
+			std::cout << i + 1 << ". A aparut o eroare la incarcarea datelor despre eveniment" << std::endl;
+		}
+	}
+
+	system("PAUSE");
+	start();
+}
+
 void TicketMaster::afisareEvenimente()
 {
 	system("CLS");
@@ -141,11 +178,15 @@ void TicketMaster::afisareEveniment(int pozEveniment)
 
 			if (selectie == 1)
 			{
-
+				cumparareBiletEveniment(pozEveniment);
 			}
 			else if (selectie == 2 && contextClient->getRolAdmin())
 			{
-
+				statisticiEveniment(pozEveniment);
+			}
+			else if (selectie == 0)
+			{
+				afisareEvenimente();
 			}
 			else
 			{
@@ -160,6 +201,72 @@ void TicketMaster::afisareEveniment(int pozEveniment)
 
 	system("PAUSE");
 	afisareEvenimente();
+}
+
+void TicketMaster::cumparareBiletEveniment(int pozEveniment)
+{
+	if (pozEveniment >= 0 && pozEveniment < evenimente.size())
+	{
+		std::cout << std::endl << "--- Cumparare bilet ---" << std::endl;
+		std::cout << "Zone disponibile: " << std::endl;
+
+		int nrZone = evenimente[pozEveniment].getLocatie().getNrZone();
+		for (int i = 0; i < nrZone; i++)
+		{
+			std::cout << i + 1 << ". " << evenimente[pozEveniment].getLocatie().getZona(i).getNume()
+				<< " (Pret: " << evenimente[pozEveniment].getLocatie().getZona(i).getPret() << " LEI)" << std::endl;
+		}
+
+		std::cout << "Introdu zona dorita: ";
+		int zona;
+		std::cin >> zona;
+		while (zona <= 0 && zona >= nrZone)
+		{
+			std::cout << "Zona nu exista." << std::endl;
+			std::cout << "Introdu zona dorita: ";
+			std::cin >> zona;
+		}
+
+		Zona zonaSelectata = evenimente[pozEveniment].getLocatie().getZona(zona - 1);
+		std::cout << zonaSelectata;
+
+		int nrRanduri = zonaSelectata.getNrRanduri();
+		int nrLocuriMax = zonaSelectata.getNrLocuriPerRand();
+
+		int nrRand, nrLoc;
+		std::cout << "Introdu numarul randului (axa din stanga): ";
+		std::cin >> nrRand;
+		std::cout << "Introdu numarul locului (axa de deasupra): ";
+		std::cin >> nrLoc;
+		while (zonaSelectata.verificareLocDisponibil(nrRand - 1, nrLoc - 1) == false)
+		{
+			std::cout << "Locul selectat nu este disponibil" << std::endl;
+			std::cout << "Introdu numarul randului (axa din stanga): ";
+			std::cin >> nrRand;
+			std::cout << "Introdu numarul locului (axa de deasupra): ";
+			std::cin >> nrLoc;
+		}
+
+		try {
+			contextClient->adaugareBilet(evenimente[pozEveniment].vanzareBilet(zona - 1, nrRand - 1, nrLoc - 1));
+			salvarePlatforma();
+		}
+		catch (VanzareNereusitaException err)
+		{
+			std::cout << "A aparut o eroare. Te rugam reincearca." << std::endl;
+			system("PAUSE");
+		}
+	}
+}
+
+void TicketMaster::statisticiEveniment(int pozEveniment)
+{
+	if (pozEveniment >= 0 && pozEveniment < evenimente.size() && contextClient->getRolAdmin())
+	{
+		std::cout << "-- Statistici eveniment --" << std::endl;
+		std::cout << "Bilete vandute: " << evenimente[pozEveniment].getNrBileteVandute() << std::endl;
+		std::cout << "Sume incasate: " << evenimente[pozEveniment].getSumaBileteVandute() << std::endl;
+	}
 }
 
 void TicketMaster::creareEveniment()
@@ -307,8 +414,7 @@ void TicketMaster::comenziAutentificat()
 
 	if(comanda == "2")
 	{
-		std::cout << "Functie in curs de implementare..." << std::endl;
-		start();
+		vizualizareCont();
 	}
 
 	if (comanda == "3")
@@ -339,15 +445,14 @@ void TicketMaster::comenziAdmin()
 		afisareEvenimente();
 	}
 
-	if(comanda == "3")
-	{
-		std::cout << "Functie in curs de implementare..." << std::endl;
-		start();
-	}
-
 	if (comanda == "2")
 	{
 		creareEveniment();
+	}
+
+	if (comanda == "3")
+	{
+		vizualizareCont();
 	}
 
 	if (comanda == "4")
@@ -394,6 +499,23 @@ void TicketMaster::adaugareLocatie(Locatie e)
 bool TicketMaster::esteClientExistent(std::string email)
 {
 	return clienti.find(email) != clienti.end();
+}
+
+Bilet TicketMaster::cautareBilet(std::string idBilet)
+{
+	for (int i = 0; i < evenimente.size(); i++)
+	{
+		try
+		{
+			return evenimente[i].getBilet(idBilet);
+		}
+		catch (IndexInvalidException e)
+		{
+			continue;
+		}
+	}
+
+	throw IndexInvalidException();
 }
 
 std::vector<Locatie> TicketMaster::getLocatii()

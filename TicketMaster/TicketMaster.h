@@ -31,10 +31,13 @@ private:
 	void logare();
 	void delogare();
 	void creareCont(bool esteAdmin);
+	void vizualizareCont();
 
 	/* Comenzi evenimente */
 	void afisareEvenimente();
 	void afisareEveniment(int pozEveniment);
+	void cumparareBiletEveniment(int pozEveniment);
+	void statisticiEveniment(int pozEveniment);
 	void creareEveniment();
 
 	/* Salvare si restaurare platforma */
@@ -55,6 +58,6 @@ public:
 	void adaugareEveniment(Eveniment e);
 	void adaugareLocatie(Locatie e);
 	bool esteClientExistent(std::string email);
-
+	Bilet cautareBilet(std::string idBilet);
 };
 

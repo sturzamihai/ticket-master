@@ -32,9 +32,24 @@ bool Client::verificareParola(std::string parolaDeComparat)
 	return parola == parolaDeComparat;
 }
 
+void Client::adaugareBilet(std::string idBilet)
+{
+	bilete.push_back(idBilet);
+}
+
 bool Client::getRolAdmin()
 {
 	return esteAdmin;
+}
+
+std::string Client::getNume()
+{
+	return nume;
+}
+
+std::vector<std::string> Client::getIdBilete()
+{
+	return bilete;
 }
 
 void Client::setRolAdmin(bool admin)
@@ -92,6 +107,13 @@ void Client::serializare(std::ofstream& f)
 	Utils::serializareString(parola, f);
 	Utils::serializareString(nume, f);
 
+	int dimBilete = bilete.size();
+	f.write((char*)&dimBilete, sizeof(dimBilete));
+	for (int i = 0; i < bilete.size(); i++)
+	{
+		Utils::serializareString(bilete[i], f);
+	}
+
 	f.write((char*)&esteAdmin, sizeof(esteAdmin));
 }
 
@@ -100,6 +122,15 @@ void Client::deserializare(std::ifstream& f)
 	email = Utils::deserializareString(f);
 	parola = Utils::deserializareString(f);
 	nume = Utils::deserializareString(f);
+
+	int dimBilete = 0;
+	bilete.clear();
+	f.read((char*)&dimBilete, sizeof(dimBilete));
+	for (int i = 0; i < dimBilete; i++)
+	{
+		std::string idBilet = Utils::deserializareString(f);
+		bilete.push_back(idBilet);
+	}
 
 	f.read((char*)&esteAdmin, sizeof(esteAdmin));
 }

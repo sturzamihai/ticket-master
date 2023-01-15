@@ -14,7 +14,7 @@ private:
 
 	bool esteAdmin;
 
-	std::vector<Bilet*> bilete;
+	std::vector<std::string> bilete;
 
 public:
 	/* Constructori */
@@ -25,13 +25,15 @@ public:
 	/* Getters */
 	std::string getEmail();
 	bool getRolAdmin();
+	std::string getNume();
+	std::vector<std::string> getIdBilete();
 
 	/* Setters */
 	void setRolAdmin(bool admin);
 
 	/* Metode */
 	bool verificareParola(std::string parolaDeComparat);
-	void adaugareBilet(Bilet* bilet);
+	void adaugareBilet(std::string idBilet);
 
 	/* Operatori */
 	friend std::ostream& operator<<(std::ostream&, Client);

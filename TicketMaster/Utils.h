@@ -21,6 +21,12 @@ public:
 	VectorNullException();
 };
 
+class VanzareNereusitaException : public std::exception
+{
+public:
+	VanzareNereusitaException();
+};
+
 namespace Utils
 {
 	std::string citireConsolaParola(std::istream& in);

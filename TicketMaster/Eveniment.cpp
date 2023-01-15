@@ -2,6 +2,14 @@
 #include "Bilet.h"
 #include "Utils.h"
 
+void Eveniment::reassignareBilete()
+{
+	for (std::map<std::string, Bilet>::iterator it = bilete.begin(); it != bilete.end(); it++)
+	{
+		(*it).second.eveniment = this;
+	}
+}
+
 Eveniment::Eveniment()
 {
 	nume = "N/A";
@@ -18,6 +26,7 @@ Eveniment::Eveniment(std::string nume, Locatie locatie, Data dataInceput, Data d
 Eveniment::Eveniment(const Eveniment& e) : Eveniment::Eveniment(e.nume, e.locatie, e.dataInceput, e.dataSfarsit)
 {
 	bilete = e.bilete;
+	reassignareBilete();
 }
 
 Eveniment& Eveniment::operator=(const Eveniment& e)
@@ -29,6 +38,7 @@ Eveniment& Eveniment::operator=(const Eveniment& e)
 		dataInceput = e.dataInceput;
 		dataSfarsit = e.dataSfarsit;
 		bilete = e.bilete;
+		reassignareBilete();
 	}
 
 	return *this;
@@ -66,6 +76,34 @@ Data Eveniment::getDataSfarsit()
 	return dataSfarsit;
 }
 
+int Eveniment::getNrBileteVandute()
+{
+	return bilete.size();
+}
+
+Bilet Eveniment::getBilet(std::string idBilet)
+{
+	auto it = bilete.find(idBilet);
+
+	if (it != bilete.end())
+	{
+		return it->second;
+	}
+
+	throw IndexInvalidException();
+}
+
+float Eveniment::getSumaBileteVandute()
+{
+	float sumaBilete = 0;
+	for (std::map<std::string, Bilet>::iterator it = bilete.begin(); it != bilete.end(); it++)
+	{
+		sumaBilete += (*it).second.getPret();
+	}
+
+	return sumaBilete;
+}
+
 void Eveniment::setData(Data dataInceput, Data dataSfarsit)
 {
 	this->dataInceput = dataInceput;
@@ -74,17 +112,18 @@ void Eveniment::setData(Data dataInceput, Data dataSfarsit)
 
 
 // TODO: maybe returnam biletul (chiar pointer) pentru introducerea in lista clientului?
-bool Eveniment::vanzareBilet(Client& client, int zona, int nrRand, int nrLoc)
+std::string Eveniment::vanzareBilet(int zona, int nrRand, int nrLoc)
 {
 	bool succesVanzare = locatie.vanzareLoc(zona, nrRand, nrLoc);
 
 	if (succesVanzare)
 	{
-		Bilet biletNou(*this, client, zona, nrRand, nrLoc, locatie.getZona(zona).getPret());
+		Bilet biletNou(*this, zona, nrRand, nrLoc, locatie.getZona(zona).getPret());
 		bilete.insert(make_pair(biletNou.getId(), biletNou));
+		return biletNou.getId();
 	}
 
-	return false;
+	throw VanzareNereusitaException();
 }
 
 std::ostream& operator<<(std::ostream& out, Eveniment e)
@@ -152,7 +191,6 @@ std::istream& operator>>(std::istream& in, Eveniment& e)
 	{
 		in >> e.locatie;
 	}
-
 
 	std::cout << " - Data inceput -" << std::endl;
 	in >> e.dataInceput;

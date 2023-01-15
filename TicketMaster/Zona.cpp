@@ -74,6 +74,11 @@ int Zona::getNrLocuriPerRand()
 	return nrLocuriPerRand;
 }
 
+bool Zona::verificareLocDisponibil(int nrRand, int nrLoc)
+{
+	return hartaLocuri != nullptr && nrRand < nrRanduri&& nrLoc < nrLocuriPerRand&& hartaLocuri[nrRand][nrLoc].blocat == false && hartaLocuri[nrRand][nrLoc].vandut == false;
+}
+
 // Returneaza capacitatea zonei
 int Zona::getCapacitateMaxima()
 {
@@ -181,7 +186,7 @@ void Zona::blocareLoc(int nrRand, int nrLoc)
 // Marcheaza un loc ca si vandut
 bool Zona::vanzareLoc(int nrRand, int nrLoc)
 {
-	if (hartaLocuri != nullptr && nrRand < nrRanduri && nrLoc < nrLocuriPerRand && hartaLocuri[nrRand][nrLoc].blocat == false)
+	if (verificareLocDisponibil(nrRand, nrLoc))
 	{
 		hartaLocuri[nrRand][nrLoc].vandut = true;
 		return true;

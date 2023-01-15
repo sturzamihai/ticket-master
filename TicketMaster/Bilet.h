@@ -16,20 +16,24 @@ private:
 	int nrLoc;
 
 	Eveniment* eveniment;
-	Client* client;
 
 	/* Constructori privati intentionat - dorim sa nu poata sa fie create bilete decat prin clasa Eveniment */
 	Bilet();
-	Bilet(Eveniment& eveniment, Client& client, int nrZona, int nrRand, int nrLoc, unsigned int pret);
+	Bilet(Eveniment& eveniment, int nrZona, int nrRand, int nrLoc, unsigned int pret);
 
 	void reinitId(std::string id);
 
 public:
 	Bilet(const Bilet& b);
-	Bilet& operator=(const Bilet& b) = delete;
+	Bilet& operator=(const Bilet& b);
 	
 	/* Getters*/
 	std::string getId();
+	float getPret();
+	Eveniment getEveniment();
+	int getNrZona();
+	int getNrRand();
+	int getNrLoc();
 
 	/* Serializabil */
 	void serializare(std::ofstream& f);

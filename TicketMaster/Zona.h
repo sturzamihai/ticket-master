@@ -36,11 +36,11 @@ public:
 	void setHartaLocuri(Loc** hartaLocuri, int nrRanduri, int nrLocuriPerRand);
 
 	/* Metode */
-
 	void deblocareLoc(int nrRand, int nrLoc);
 	void blocareLoc(int nrRand, int nrLoc);
 	bool vanzareLoc(int nrRand, int nrLoc);
 	int getCapacitateMaxima();
+	bool verificareLocDisponibil(int nrRand, int nrLoc);
 
 	static Loc** generareHartaLocuri(int nrRanduri, int nrLocuriPerRand);
 
