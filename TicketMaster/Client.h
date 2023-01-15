@@ -31,6 +31,7 @@ public:
 
 	/* Metode */
 	bool verificareParola(std::string parolaDeComparat);
+	void adaugareBilet(Bilet* bilet);
 
 	/* Operatori */
 	friend std::ostream& operator<<(std::ostream&, Client);

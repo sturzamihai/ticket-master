@@ -5,9 +5,6 @@
 Eveniment::Eveniment()
 {
 	nume = "N/A";
-
-	/*nrBileteVandute = 0;
-	bilete = nullptr;*/
 }
 
 Eveniment::Eveniment(std::string nume, Locatie locatie, Data dataInceput, Data dataSfarsit) : Eveniment::Eveniment()
@@ -21,16 +18,6 @@ Eveniment::Eveniment(std::string nume, Locatie locatie, Data dataInceput, Data d
 Eveniment::Eveniment(const Eveniment& e) : Eveniment::Eveniment(e.nume, e.locatie, e.dataInceput, e.dataSfarsit)
 {
 	bilete = e.bilete;
-	/*if (e.bilete != nullptr && e.nrBileteVandute)
-	{
-		nrBileteVandute = e.nrBileteVandute;
-		bilete = new Bilet[e.nrBileteVandute];
-
-		for (int i = 0; i < nrBileteVandute; i++)
-		{
-			bilete[i] = e.bilete[i];
-		}
-	}*/
 }
 
 Eveniment& Eveniment::operator=(const Eveniment& e)
@@ -47,29 +34,7 @@ Eveniment& Eveniment::operator=(const Eveniment& e)
 	return *this;
 }
 
-Eveniment::~Eveniment()
-{
-	/*if (bilete != nullptr)
-	{
-		delete[] bilete;
-		bilete = nullptr;
-	}*/
-}
-
-//void Eveniment::setBilete(Bilet* bilete, int nrBileteVandute)
-//{
-//	if (bilete != nullptr && nrBileteVandute > 0)
-//	{
-//		this->nrBileteVandute = nrBileteVandute;
-//
-//		if (this->bilete != nullptr)
-//			delete[] this->bilete;
-//
-//		this->bilete = new Bilet[nrBileteVandute];
-//		for (int i = 0; i < nrBileteVandute; i++)
-//			this->bilete[i] = bilete[i];
-//	}
-//}
+Eveniment::~Eveniment() {}
 
 std::string Eveniment::getNume()
 {
@@ -166,7 +131,7 @@ std::istream& operator>>(std::istream& in, Eveniment& e)
 		}
 
 		int selectie;
-		std::cout << "Introdu 0 pentru a crea o locatie noua sau orice numar din fata numelui locatiei pentru folosirea acesteia:";
+		std::cout << "Introdu 0 pentru a crea o locatie noua sau orice numar din fata numelui locatiei pentru folosirea acesteia: ";
 		in >> selectie;
 
 		while (selectie < 0 || (selectie-1) >= locatii.size())
@@ -233,22 +198,18 @@ std::istream& operator>>(std::istream& in, Eveniment& e)
 		e.locatie.setPretLocuri(pretZone);
 	}
 
-	platforma->adaugareEveniment(e);
-
 	return in;
 }
 
 
 void Eveniment::serializare(std::ofstream& f)
 {
-	short dimNume = nume.length();
-	f.write((char*)&dimNume, sizeof(dimNume));
-	f.write(nume.c_str(), dimNume + 1);
+	Utils::serializareString(nume, f);
 
 	locatie.serializare(f);
 
 	int dimBilete = bilete.size();
-	f.write((char*)dimBilete, sizeof(dimBilete));
+	f.write((char*)&dimBilete, sizeof(dimBilete));
 	for (std::map<std::string, Bilet>::iterator it = bilete.begin(); it != bilete.end(); it++)
 	{
 		(*it).second.serializare(f);
@@ -260,13 +221,7 @@ void Eveniment::serializare(std::ofstream& f)
 
 void Eveniment::deserializare(std::ifstream& f)
 {
-	short dimNume = 0;
-	f.read((char*)&dimNume, sizeof(dimNume));
-
-	char* n = new char[dimNume + 1];
-	f.read(n, dimNume + 1);
-	nume = n;
-	delete[] n;
+	nume = Utils::deserializareString(f);
 
 	locatie.deserializare(f);
 

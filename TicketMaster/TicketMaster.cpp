@@ -72,6 +72,72 @@ void TicketMaster::creareCont(bool esteAdmin = false)
 	start();
 }
 
+void TicketMaster::afisareEvenimente()
+{
+	system("CLS");
+
+	std::cout << "================" << std::endl;
+	std::cout << "-> Evenimente <-" << std::endl;
+	std::cout << "================" << std::endl;
+
+	if (evenimente.empty())
+	{
+		std::cout << "Nu exista evenimente create." << std::endl;
+	}
+	else
+	{
+		for (int i = 0; i < evenimente.size(); i++)
+		{
+			std::cout << i + 1 << ". ";
+			std::cout << "\t" << evenimente[i].getNume() << std::endl;
+
+			std::cout << "\tLocatie: " << evenimente[i].getLocatie().getNumeString() << std::endl;
+			std::cout << "\tData: "
+				<< evenimente[i].getDataInceput() << " - " << evenimente[i].getDataSfarsit()
+				<< std::endl;
+		}
+
+		int selectie;
+		std::cout << "Introdu numarul din dreptul evenimentului dorit sau 0 pentru reintoarcerea la meniu: ";
+		std::cin >> selectie;
+
+		while ((selectie == 0 || (selectie-1) < evenimente.size()) == false)
+		{
+			std::cout << "Comanda introdusa nu este corecta." << std::endl;
+			std::cout << "Reintrodu comanda: ";
+			std::cin >> selectie;
+		}
+
+		if (selectie != 0)
+		{
+			system("CLS");
+			std::cout << evenimente[selectie - 1] << std::endl;
+			system("PAUSE");
+			afisareEvenimente();
+		}
+	}
+
+	system("PAUSE");
+	start();
+}
+
+void TicketMaster::creareEveniment()
+{
+	system("CLS");
+
+	std::cout << "======================" << std::endl;
+	std::cout << "-> Creare eveniment <-" << std::endl;
+	std::cout << "======================" << std::endl;
+
+	Eveniment e;
+	std::cin >> e;
+	adaugareEveniment(e);
+
+	std::cout << "Eveniment creat cu succes." << std::endl;
+	system("PAUSE");
+	start();
+}
+
 void TicketMaster::salvarePlatforma()
 {
 	std::ofstream fClienti("clienti.bin", std::ios::binary);
@@ -145,17 +211,6 @@ void TicketMaster::setLocatii(std::vector<Locatie> locatii)
 	this->locatii = locatii;
 }
 
-void TicketMaster::setContextClient(const Client& c)
-{
-	contextClient = new Client(c);
-}
-
-void TicketMaster::deleteContextClient()
-{
-	delete contextClient;
-	contextClient = nullptr;
-}
-
 void TicketMaster::comenziNeautentificat()
 {
 	std::cout << "1. Lista evenimente" << std::endl;
@@ -174,21 +229,7 @@ void TicketMaster::comenziNeautentificat()
 
 	if (comanda == "1")
 	{
-		std::cout << "--- Evenimente ---" << std::endl;
-		if (evenimente.empty())
-		{
-			std::cout << "Nu exista evenimente create." << std::endl;
-		}
-
-		for (int i = 0; i < evenimente.size(); i++)
-		{
-			std::cout << std::setw(3) << i + 1 << ". ";
-			std::cout << evenimente[i].getNume() << std::endl;
-
-			std::cout << std::setw(3) << "";
-			std::cout << "Locatie: " << evenimente[i].getLocatie().getNumeString() << std::endl;
-		}
-		start();
+		afisareEvenimente();
 	}
 
 	if (comanda == "2")
@@ -218,7 +259,12 @@ void TicketMaster::comenziAutentificat()
 		start();
 	}
 
-	if (comanda == "1" || comanda == "2")
+	if (comanda == "1")
+	{
+		afisareEvenimente();
+	}
+
+	if(comanda == "2")
 	{
 		std::cout << "Functie in curs de implementare..." << std::endl;
 		start();
@@ -247,7 +293,12 @@ void TicketMaster::comenziAdmin()
 		start();
 	}
 
-	if (comanda == "1" || comanda == "3")
+	if (comanda == "1")
+	{
+		afisareEvenimente();
+	}
+
+	if(comanda == "3")
 	{
 		std::cout << "Functie in curs de implementare..." << std::endl;
 		start();
@@ -255,10 +306,7 @@ void TicketMaster::comenziAdmin()
 
 	if (comanda == "2")
 	{
-		Eveniment e;
-		std::cin >> e;
-		adaugareEveniment(e);
-		start();
+		creareEveniment();
 	}
 
 	if (comanda == "4")
@@ -294,6 +342,7 @@ void TicketMaster::start()
 void TicketMaster::adaugareEveniment(Eveniment e)
 {
 	evenimente.push_back(e);
+	salvarePlatforma();
 }
 
 void TicketMaster::adaugareLocatie(Locatie e)

@@ -22,8 +22,6 @@ private:
 	std::map<std::string, Client> clienti;
 
 	Client* contextClient;
-	void setContextClient(const Client& c);
-	void deleteContextClient();
 
 	void comenziNeautentificat();
 	void comenziAutentificat();
@@ -34,6 +32,11 @@ private:
 	void delogare();
 	void creareCont(bool esteAdmin);
 
+	/* Comenzi evenimente */
+	void afisareEvenimente();
+	void creareEveniment();
+
+	/* Salvare si restaurare platforma */
 	void salvarePlatforma();
 	void restaurarePlatforma();
 public:
