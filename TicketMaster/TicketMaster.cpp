@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <urlmon.h>
+#pragma comment(lib, "urlmon.lib")
 
 TicketMaster* TicketMaster::tm_ = nullptr;
 
@@ -528,12 +530,18 @@ void TicketMaster::cli(std::string numeFisier)
 		return;
 	}
 
+	int bileteValide = 0;
 	while (!fBilete.eof())
 	{
 		std::string biletDeCautat;
 		std::getline(fBilete, biletDeCautat);
 		try {
 			Bilet b = cautareBilet(biletDeCautat);
+			HRESULT hr = URLDownloadToFile(0, L"http://ipinfo.io/json", L"test.json", 0, NULL);
+			if (hr == S_OK)
+			{
+				std::cout << "OK!" << std::endl;
+			}
 			std::cout << "Biletul " << biletDeCautat << " este valid." << std::endl;
 		}
 		catch (IndexInvalidException err)

@@ -15,7 +15,7 @@ int main(char argc, char** argv)
 			std::cout << argv[0] << " (Rulare clasica, prin consola)" << std::endl;
 			std::cout << argv[0] << " -f " << "[numefisier.txt] (Verificare daca codurile de bilet dintr-un fisier sunt valide)" << std::endl;
 		}
-		else if (command == "-f")
+		else if (command == "-f" && argc > 2)
 		{
 			std::string fisierCoduri = argv[2];
 			platforma->cli(fisierCoduri);
