@@ -520,7 +520,7 @@ void TicketMaster::start()
 	}
 }
 
-void TicketMaster::cli(std::string numeFisier)
+void TicketMaster::cli(std::string numeFisier, bool generarePdf = false)
 {
 	std::ifstream fBilete(numeFisier);
 
@@ -537,12 +537,28 @@ void TicketMaster::cli(std::string numeFisier)
 		std::getline(fBilete, biletDeCautat);
 		try {
 			Bilet b = cautareBilet(biletDeCautat);
-			HRESULT hr = URLDownloadToFile(0, L"http://ipinfo.io/json", L"test.json", 0, NULL);
-			if (hr == S_OK)
-			{
-				std::cout << "OK!" << std::endl;
-			}
+
 			std::cout << "Biletul " << biletDeCautat << " este valid." << std::endl;
+
+			if (generarePdf)
+			{
+				std::string microserviceUrl = "http://localhost:8080/generare-bilet?numeEveniment=" + b.getEveniment().getNume() +
+					"&zonaEveniment=" + b.getEveniment().getLocatie().getZona(b.getNrZona()).getNume() +
+					"&randEveniment=" + std::to_string(b.getNrRand()) + "&locEveniment=" + std::to_string(b.getNrLoc());
+				std::wstring stempMicro = std::wstring(microserviceUrl.begin(), microserviceUrl.end());
+				LPCWSTR swMicro = stempMicro.c_str();
+
+
+				std::string filename = "Bilet-" + std::to_string(++bileteValide) + ".pdf";
+				std::wstring stempName = std::wstring(filename.begin(), filename.end());
+				LPCWSTR swName = stempName.c_str();
+
+				HRESULT hr = URLDownloadToFile(0, swMicro, swName, 0, NULL);
+				if (hr == S_OK)
+				{
+					std::cout << "\tBilet descarcat." << std::endl;
+				}
+			}
 		}
 		catch (IndexInvalidException err)
 		{
