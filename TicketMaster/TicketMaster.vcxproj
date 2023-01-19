@@ -152,6 +152,10 @@
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Zona.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".env" />
+    <None Include=".env.example" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

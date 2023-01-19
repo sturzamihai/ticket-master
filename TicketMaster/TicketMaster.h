@@ -55,7 +55,7 @@ public:
 
 	/* Metode */
 	void start();
-	void cli(std::string numeFisier);
+	void cli(std::string numeFisier, bool generarePdf);
 	void adaugareEveniment(Eveniment e);
 	void adaugareLocatie(Locatie e);
 	bool esteClientExistent(std::string email);
