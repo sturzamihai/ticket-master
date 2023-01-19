@@ -542,7 +542,7 @@ void TicketMaster::cli(std::string numeFisier, bool generarePdf = false)
 
 			if (generarePdf)
 			{
-				std::string microserviceUrl = "https://api.ticketmaster.mihaisturza.ro/generare-bilet?numeEveniment=" + b.getEveniment().getNume() +
+				std::string microserviceUrl = "http://api.ticketmaster.mihaisturza.ro/generare-bilet?numeEveniment=" + b.getEveniment().getNume() +
 					"&zonaEveniment=" + b.getEveniment().getLocatie().getZona(b.getNrZona()).getNume() +
 					"&randEveniment=" + std::to_string(b.getNrRand()) + "&locEveniment=" + std::to_string(b.getNrLoc());
 				std::wstring stempMicro = std::wstring(microserviceUrl.begin(), microserviceUrl.end());
