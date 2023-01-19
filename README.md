@@ -13,7 +13,13 @@ Pentru verificarea biletelor dintr-un fisier se ruleaza:
 TicketMaster.exe -f [numefisier.txt]
 ```
 
-Pentru afisarea mesajului acesta, se poate rula programul cu parametrul `-h` sau `--help`.
+Pentru salvarea unui bilet in format PDF se adauga la comanda de mai sus `--pdf`:
+```bash
+TicketMaster.exe -f [numeFisier.txt] --pdf
+```
+Acestea vor fi salvate in directorul curent, sub forma `Bilet-[nrBiletValid].pdf`
+
+*Pentru afisarea mesajelor de mai sus, se poate rula programul cu parametrul `-h` sau `--help`.*
 
 ### Service de generare PDF
 
@@ -55,7 +61,7 @@ Cerintele proiectului se pot gasi la adresa [aceasta (Google Docs)](https://docs
 
 #### `GET` `[endpoint]/generare-bilet`
 
-Parametrii query acceptati:
+Parametrii query **necesari** (lipsa lor va afisa un mesaj de eroare):
 
 * `numeEveniment`: string ce contine numele evenimentului
 * `zonaEveniment`: string ce contine numele zonei biletului
