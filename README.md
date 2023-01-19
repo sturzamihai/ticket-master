@@ -3,6 +3,8 @@ Proiect final POO, anul 2
 
 ## :pushpin: Mod de rulare
 
+### Utilizarea sistemului de baza
+
 Pentru rularea ghidata se ruleaza:
 ```bash
 TicketMaster.exe
@@ -21,7 +23,7 @@ Acestea vor fi salvate in directorul curent, sub forma `Bilet-[nrBiletValid].pdf
 
 *Pentru afisarea mesajelor de mai sus, se poate rula programul cu parametrul `-h` sau `--help`.*
 
-### Service de generare PDF
+### Utilizarea sistemului de generare PDF
 
 Necesare:
 * NodeJs
